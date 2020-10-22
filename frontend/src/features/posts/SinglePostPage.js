@@ -1,7 +1,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import { Link, Redirect, useRouteMatch } from "react-router-dom"
-import { Button, Container, Header, Icon, Segment } from "semantic-ui-react"
+import { Button, Container, Header, Image, Segment } from "semantic-ui-react"
 import { selectCurrentUser } from "../user/userSlice"
 import { selectUserById } from "../users/usersSlice"
 import { selectPostById } from "./postsSlice"
@@ -16,11 +16,14 @@ const Post = ({ post }) => {
         {post.content}
       </Segment>
       <Segment>
-        <Icon name="info circle" />
-        Postado por{" "}
-        <Link to={`/users/${author._id}`}>
-          {author.firstName} {author.lastName}
-        </Link>
+        <Container textAlign="center">
+          <Link to={`/users/${author._id}`}>
+            <Header size="large">
+              <Image src={author.avatar} avatar />
+              {author.firstName} {author.lastName}
+            </Header>
+          </Link>
+        </Container>
       </Segment>
     </Segment.Group>
   )
