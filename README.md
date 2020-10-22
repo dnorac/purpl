@@ -31,12 +31,18 @@ You will also see any lint errors in the console.
 - [Semantic UI React](https://react.semantic-ui.com/) - Beautiful UI Library
 - [Axios](https://github.com/axios/axios) - Easier than Fetch API
 - [node-sass](https://github.com/sass/node-sass) - Can't live without SASS anymore.
+- [React Helmet](https://github.com/nfl/react-helmet) - Change the `header` tag dynamically in React.
 
 ##### Backend
 
 - [Express](http://expressjs.com/) - A high-level and simple HTTP Server for Node.js
+  - [Helmet]() - Secure Express headers
+- [dotenv](https://github.com/motdotla/dotenv) - Load environment variables from `.env` files.
 - [Mongoose](https://mongoosejs.com/) - Allows creating schemas and models (with validation) to operate on your MongoDB documents.
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - Create and Sign JSON Web Tokens for token-based authentication
+- [cookie-parser](https://github.com/expressjs/cookie-parser) - Parse the `Cookie` header and populate `req.cookies`.
 - [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) - Used for hashing passwords
+- [nodemon](https://github.com/remy/nodemon) - Restart the node application when files change
 
 ##### Integration
 
