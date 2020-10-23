@@ -1,6 +1,8 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory } from "react-router-dom"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { Button, Header, Image, Label, Popup, Segment } from "semantic-ui-react"
 import { selectCurrentUser } from "../user/userSlice"
 import { selectAllUsers } from "../users/usersSlice"
@@ -19,11 +21,30 @@ function Post({ post }) {
 
   if (!author || (!post.visible && user._id !== post.authorId)) return null
 
+  const codeSnippet = `import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+const Component = () => {
+  const codeString = '(num) => num + 1';
+  return (
+    <SyntaxHighlighter language="javascript" style={dark}>
+      {codeString === false}
+    </SyntaxHighlighter>
+  );
+};`
+
   return (
     <Segment.Group>
       <Segment>
         <Header>{post.title}</Header>
         <p>{post.content}</p>
+        <SyntaxHighlighter
+          language="javascript"
+          style={vscDarkPlus}
+          customStyle={{ borderRadius: 7 }}
+          showLineNumbers
+        >
+          {codeSnippet}
+        </SyntaxHighlighter>
       </Segment>
       <Segment clearing>
         <Label

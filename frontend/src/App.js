@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Helmet } from "react-helmet"
 import { useDispatch } from "react-redux"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
 import "./App.scss"
 import Navbar from "./app/Navbar"
 import AddPostForm from "./features/posts/AddPostForm"
@@ -27,7 +27,7 @@ function App() {
   }, [dispatch])
 
   return (
-    <Router>
+    <>
       <Helmet>
         <title>Purpl</title>
       </Helmet>
@@ -63,7 +63,7 @@ function App() {
           <PostList />
         </Route>
       </Switch>
-    </Router>
+    </>
   )
 }
 

@@ -68,7 +68,6 @@ const userSlice = createSlice({
       state.state = "idle"
     },
     [updateProfile.fulfilled]: (state, action) => {
-      console.log(updateProfile.fulfilled)
       state.user = action.payload
     },
   },

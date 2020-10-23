@@ -7,6 +7,7 @@ import { selectCurrentUser } from "../user/userSlice"
 
 function CurrentUser() {
   const { user } = useSelector(selectCurrentUser)
+
   const dispatch = useDispatch()
 
   return (

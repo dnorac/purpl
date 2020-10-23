@@ -78,7 +78,7 @@ function SingleUserPage() {
                 as={Link}
                 to={`${match.url}/update`}
                 content="Alterar perfil"
-                color="violet"
+                primary
               />
             </>
           )}

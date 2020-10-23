@@ -7,7 +7,7 @@ const initialState = {
       id: "1",
       authorId: "5f8f6171af18547f7dbbc8d5",
       title: "Teste",
-      content: "Hello",
+      content: "Look at the following code snippet:",
       visible: true,
     },
     {

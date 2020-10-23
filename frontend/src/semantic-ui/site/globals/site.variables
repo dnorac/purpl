@@ -1,0 +1,12 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@purplPrimaryColor: #591e9c;
+
+@primaryColor: @purplPrimaryColor;
+
+@focusedFormBorderColor: lighten(@purplPrimaryColor, 35%);
+
+/* Links */
+@linkColor: @purplPrimaryColor;
