@@ -2,12 +2,11 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { Link, Redirect, useRouteMatch } from "react-router-dom"
 import { Button, Container, Header, Image, Segment } from "semantic-ui-react"
-import { selectCurrentUser } from "../user/userSlice"
-import { selectUserById } from "../users/usersSlice"
-import { selectPostById } from "./postsSlice"
+import { useCurrentUser } from "../user/userSlice"
+import { selectPostById, usePostAuthor } from "./postsSlice"
 
 const Post = ({ post }) => {
-  const author = useSelector(selectUserById(post.authorId))
+  const author = usePostAuthor(post.authorId)
 
   return (
     <Segment.Group>
@@ -16,10 +15,10 @@ const Post = ({ post }) => {
         {post.content}
       </Segment>
       <Segment>
-        <Container textAlign="center">
+        <Container>
           <Link to={`/users/${author._id}`}>
-            <Header size="large">
-              <Image src={author.avatar} avatar />
+            <Image src={author.avatar} circular size="tiny" centered />
+            <Header size="large" textAlign="center">
               {author.firstName} {author.lastName}
             </Header>
           </Link>
@@ -34,8 +33,7 @@ function SinglePostPage() {
     params: { postId },
   } = useRouteMatch()
   const post = useSelector(selectPostById(postId))
-
-  const { user } = useSelector(selectCurrentUser)
+  const user = useCurrentUser()
 
   if (!user.email) return <Redirect to="/login" />
 

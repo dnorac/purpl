@@ -1,11 +1,10 @@
 import React from "react"
-import { useSelector } from "react-redux"
 import { Link, NavLink } from "react-router-dom"
-import { selectCurrentUser } from "../features/user/userSlice"
+import { useCurrentUser } from "../features/user/userSlice"
 import logo from "./logo.png"
 
 function Navbar() {
-  const { user } = useSelector(selectCurrentUser)
+  const user = useCurrentUser()
 
   return (
     <nav className="navbar">

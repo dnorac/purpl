@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Helmet } from "react-helmet"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import {
   Button,
   Container,
@@ -28,10 +28,7 @@ function LoginForm() {
     register({ name: "password" }, { required: "Digite sua senha." })
   }, [register])
 
-  const onSubmit = data => {
-    console.log("Submitted with data", data)
-    dispatch(logUserIn(data))
-  }
+  const onSubmit = data => dispatch(logUserIn(data))
 
   if (user.email) return <Redirect to="/profile" />
 
@@ -89,9 +86,15 @@ function LoginForm() {
                     await trigger(name)
                   }}
                 />
-                <Button primary type="submit">
-                  Conectar
-                </Button>
+                <Button.Group fluid>
+                  <Button primary type="submit">
+                    Conectar
+                  </Button>
+                  <Button.Or text="ou" />
+                  <Button as={Link} to="/register">
+                    Registre-se
+                  </Button>
+                </Button.Group>
               </Form>
             </Grid.Column>
           </Grid.Row>

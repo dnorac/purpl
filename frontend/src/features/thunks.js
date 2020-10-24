@@ -60,7 +60,7 @@ export const updateProfile = createAsyncThunk(
   "user/updateProfile",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.post("/api/updateProfile", payload)
+      const { data } = (await axios.post("/api/updateProfile", payload)).data
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue()

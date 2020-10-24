@@ -35,19 +35,7 @@ function RegisterForm() {
 
   if (user.email) return <Redirect to="/profile" />
 
-  // const repeatVal = (passwordRepeat) =>
-  //   passwordRepeat === getValues().password || "As senhas são diferentes.";
-  // const validateRepeat = () => {
-  //   if (formState.isSubmitted) {
-  //     trigger("passwordRepeat");
-  //   }
-  // };
-
-  const onSubmit = async data => {
-    console.log(data)
-    dispatch(registerUser(data))
-    // history.push("/login");
-  }
+  const onSubmit = async data => dispatch(registerUser(data))
 
   return (
     <Segment basic>

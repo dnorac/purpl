@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { useSelector } from "react-redux"
 import {
   logUserIn,
   logUserOut,
@@ -68,11 +69,15 @@ const userSlice = createSlice({
       state.state = "idle"
     },
     [updateProfile.fulfilled]: (state, action) => {
-      state.user = action.payload
+      state.user = { ...state.user, ...action.payload }
     },
   },
 })
 
 export const selectCurrentUser = state => state.currentUser
+
+export const useCurrentUser = () => {
+  return useSelector(selectCurrentUser).user
+}
 
 export default userSlice.reducer

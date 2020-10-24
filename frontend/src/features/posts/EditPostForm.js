@@ -13,7 +13,7 @@ import {
   Segment,
   TextArea,
 } from "semantic-ui-react"
-import { selectCurrentUser } from "../user/userSlice"
+import { useCurrentUser } from "../user/userSlice"
 import { postUpdated, selectPostById } from "./postsSlice"
 
 function EditPostForm() {
@@ -44,12 +44,11 @@ function EditPostForm() {
 
   const dispatch = useDispatch()
   const onSubmit = data => {
-    console.log(data)
     dispatch(postUpdated({ ...data, id: post.id }))
     history.push("/posts")
   }
 
-  const { user } = useSelector(selectCurrentUser)
+  const user = useCurrentUser()
 
   if (!user.email) return <Redirect to="/login" />
 

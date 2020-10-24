@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { Redirect, useRouteMatch } from "react-router-dom"
 import {
   Button,
@@ -12,11 +12,11 @@ import {
   Segment,
 } from "semantic-ui-react"
 import { updateProfile } from "../thunks"
-import { selectCurrentUser } from "./userSlice"
+import { useCurrentUser } from "./userSlice"
 
 function UpdateProfileForm() {
   const match = useRouteMatch()
-  const { user } = useSelector(selectCurrentUser)
+  const user = useCurrentUser()
   const { handleSubmit, register, watch, errors, setValue, trigger } = useForm()
   const dispatch = useDispatch()
 
@@ -27,7 +27,6 @@ function UpdateProfileForm() {
   if (!user._id || match.params.userId !== user._id) return <Redirect to="/" />
 
   const onSubmit = data => {
-    console.log(data)
     dispatch(updateProfile(data))
   }
 

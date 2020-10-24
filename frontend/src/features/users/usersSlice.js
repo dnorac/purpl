@@ -3,16 +3,7 @@ import { fetchUsers, registerUser } from "../thunks"
 
 const initialState = {
   state: "loading",
-  users: [
-    // {
-    //   id: "1",
-    //   firstName: "Daniel",
-    //   lastName: "Castro",
-    //   email: "daniel_nora@hotmail.com",
-    //   password: "nora03",
-    //   avatar: "https://br.web.img3.acsta.net/newsv7/19/10/04/01/13/5346274.jpg",
-    // },
-  ],
+  users: [],
 }
 
 const usersSlice = createSlice({

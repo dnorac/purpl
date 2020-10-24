@@ -1,7 +1,8 @@
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, Redirect, useHistory } from "react-router-dom"
+import "react-quill/dist/quill.snow.css"
+import { useDispatch } from "react-redux"
+import { Redirect, useHistory } from "react-router-dom"
 import {
   Button,
   Checkbox,
@@ -13,8 +14,8 @@ import {
   Segment,
   TextArea,
 } from "semantic-ui-react"
-import { selectCurrentUser } from "../user/userSlice"
-import { postAdded, selectAllPosts } from "./postsSlice"
+import { useCurrentUser } from "../user/userSlice"
+import { postAdded, useAllPosts } from "./postsSlice"
 
 function AddPostForm() {
   const { register, handleSubmit, errors, setValue, trigger } = useForm({
@@ -38,8 +39,8 @@ function AddPostForm() {
 
   const dispatch = useDispatch()
 
-  const { user } = useSelector(selectCurrentUser)
-  const { state } = useSelector(selectAllPosts)
+  const user = useCurrentUser()
+  const { state } = useAllPosts()
 
   const onSubmit = data => {
     const { title, content, visible } = data
@@ -52,7 +53,6 @@ function AddPostForm() {
         callback: () => history.push("/posts"),
       })
     )
-    // history.push("/posts");
   }
 
   if (!user.email) return <Redirect to="/login" />
@@ -94,6 +94,11 @@ function AddPostForm() {
                 : false
             }
           />
+          {/* <ReactQuill
+            theme="snow"
+            placeholder="Seja criativo!"
+            onChange={handleQuillChanged}
+          /> */}
           <Form.Field
             control={Checkbox}
             label="Publicar este post"
@@ -105,7 +110,11 @@ function AddPostForm() {
             defaultChecked={true}
           />
           <Button.Group>
-            <Button as={Link} to="/posts" content="Voltar" icon="arrow left" />
+            <Button
+              content="Voltar"
+              icon="arrow left"
+              onClick={() => history.goBack()}
+            />
             <Button animated primary>
               <Button.Content visible content="Postar" />
               <Button.Content hidden>

@@ -1,75 +1,45 @@
 import React from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { Link, useHistory } from "react-router-dom"
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { Button, Header, Image, Label, Popup, Segment } from "semantic-ui-react"
-import { selectCurrentUser } from "../user/userSlice"
-import { selectAllUsers } from "../users/usersSlice"
-import { deletePost, toggleVisibility } from "./postsSlice"
+import { useCurrentUser } from "../user/userSlice"
+import { deletePost, toggleVisibility, usePostAuthor } from "./postsSlice"
 
-function Post({ post }) {
-  console.log(post)
+function Post({ post, showAuthor = true }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const { user } = useSelector(selectCurrentUser)
-  const { users } = useSelector(selectAllUsers)
-  console.log(users)
-  const author = users.find(u => u._id === post.authorId)
-  console.log(author)
+  const user = useCurrentUser()
+  const author = usePostAuthor(post.authorId)
 
   if (!author || (!post.visible && user._id !== post.authorId)) return null
-
-  const codeSnippet = `import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-const Component = () => {
-  const codeString = '(num) => num + 1';
-  return (
-    <SyntaxHighlighter language="javascript" style={dark}>
-      {codeString === false}
-    </SyntaxHighlighter>
-  );
-};`
 
   return (
     <Segment.Group>
       <Segment>
-        <Header>{post.title}</Header>
+        <Header size="large">{post.title}</Header>
         <p>{post.content}</p>
-        <SyntaxHighlighter
-          language="javascript"
-          style={vscDarkPlus}
-          customStyle={{ borderRadius: 7 }}
-          showLineNumbers
-        >
-          {codeSnippet}
-        </SyntaxHighlighter>
       </Segment>
       <Segment clearing>
-        <Label
-          as={Link}
-          to={`/users/${post.authorId}`}
-          basic
-          image
-          size="medium"
-        >
-          <Image
-            src={author.avatar}
-            avatar
-            alt={`${author.firstName} ${author.lastName}`}
-          />
-          {author.firstName} {author.lastName}
-        </Label>
+        {showAuthor && (
+          <Label as={Link} to={`/users/${post.authorId}`} size="medium" basic>
+            <Image
+              src={author.avatar}
+              alt={`${author.firstName} ${author.lastName}`}
+              spaced="right"
+              avatar
+            />
+            {author.firstName} {author.lastName}
+          </Label>
+        )}
         {user._id === post.authorId && (
-          <Button.Group size="small" floated="right" compact>
+          <Button.Group floated={showAuthor ? "right" : undefined} basic>
             <Popup
               content="Exibir/ocultar post"
               trigger={
                 <Button
                   icon={post.visible ? "eye" : "eye slash"}
                   color={post.visible ? "blue" : "grey"}
-                  basic
                   onClick={() => dispatch(toggleVisibility(post.id))}
                 />
               }
@@ -88,7 +58,7 @@ const Component = () => {
                   onClick={() => dispatch(deletePost(post.id))}
                 />
               }
-              trigger={<Button color="red" icon="delete" basic />}
+              trigger={<Button color="red" icon="delete" />}
             />
             <Popup
               mouseEnterDelay={200}
@@ -96,7 +66,6 @@ const Component = () => {
               trigger={
                 <Button
                   onClick={() => history.push(`/posts/${post.id}/edit`)}
-                  basic
                   color="grey"
                   icon="edit"
                 />
@@ -108,7 +77,6 @@ const Component = () => {
               trigger={
                 <Button
                   onClick={() => history.push(`/posts/${post.id}`)}
-                  basic
                   color="grey"
                   icon="arrow right"
                 />

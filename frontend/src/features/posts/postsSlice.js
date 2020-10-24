@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit"
+import { useSelector } from "react-redux"
+import { selectAllUsers } from "../users/usersSlice"
 
 const initialState = {
   state: "idle",
@@ -17,27 +19,6 @@ const initialState = {
       content: "Hello",
       visible: true,
     },
-    // {
-    //   id: "1",
-    //   authorId: "1",
-    //   title: "First Post!",
-    //   content: "Hello!",
-    //   visible: true,
-    // },
-    // {
-    //   id: "2",
-    //   authorId: "1",
-    //   title: "Second Post!",
-    //   content: "More text",
-    //   visible: false,
-    // },
-    // {
-    //   id: "3",
-    //   authorId: "1",
-    //   title: "Third Post!",
-    //   content: "Yet another text",
-    //   visible: true,
-    // },
   ],
 }
 
@@ -94,7 +75,6 @@ export const postsSlice = createSlice({
   extraReducers: {
     [fetchPosts.fulfilled]: (state, action) => {
       return state
-      return { state: "idle", posts: action.payload }
     },
     [fetchPosts.rejected]: (state, action) => {
       return { state: "error", posts: [] }
@@ -116,5 +96,12 @@ export const selectPostById = id => state =>
   state.posts.posts.find(post => post.id === id)
 export const selectPostsByAuthor = id => state =>
   state.posts.posts.filter(post => post.authorId === id)
+
+export const usePostAuthor = id => {
+  const { users } = useSelector(selectAllUsers)
+  return users.find(u => u._id === id)
+}
+
+export const useAllPosts = () => useSelector(selectAllPosts)
 
 export default postsSlice.reducer

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router-dom"
-import { Container, Item, Segment } from "semantic-ui-react"
+import { Container, Grid, Segment } from "semantic-ui-react"
 import { fetchUsers } from "../thunks"
-import { selectCurrentUser } from "../user/userSlice"
+import { useCurrentUser } from "../user/userSlice"
 import { selectAllUsers } from "../users/usersSlice"
 import User from "./User"
 
 function UserList() {
   const { users, state } = useSelector(selectAllUsers)
-  const { user } = useSelector(selectCurrentUser)
+  const user = useCurrentUser()
 
   const dispatch = useDispatch()
 
@@ -26,11 +26,11 @@ function UserList() {
   return (
     <Segment basic>
       <Container>
-        <Item.Group relaxed="very" link divided>
+        <Grid columns={3} stackable doubling>
           {users.map(user => (
-            <User user={user} />
+            <User key={user._id} user={user} />
           ))}
-        </Item.Group>
+        </Grid>
       </Container>
     </Segment>
   )

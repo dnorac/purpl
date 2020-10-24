@@ -1,28 +1,32 @@
 import React from "react"
-import { useSelector } from "react-redux"
 import { Link, Redirect } from "react-router-dom"
-import { Button, Container, Header, Segment } from "semantic-ui-react"
-import { selectCurrentUser } from "../user/userSlice"
+import { Button, Container, Grid, Header, Segment } from "semantic-ui-react"
+import { useCurrentUser } from "../user/userSlice"
 import Post from "./Post"
-import { selectAllPosts } from "./postsSlice"
+import { useAllPosts } from "./postsSlice"
 
 function PostList() {
-  const { state, posts } = useSelector(selectAllPosts)
-  const { user } = useSelector(selectCurrentUser)
+  const { state, posts } = useAllPosts()
+  const user = useCurrentUser()
 
   if (!user.email) return <Redirect to="/login" />
 
-  const renderedPosts = (user.email ? posts : posts.filter(p => p.visible)).map(
-    post => {
-      return <Post key={post.id} post={post} />
-    }
-  )
+  const renderedPosts = child =>
+    (user.email ? posts : posts.filter(p => p.visible)).map(post => {
+      return child(post)
+    })
 
   return (
     <Segment basic>
-      <Container loading={state === "loading"}>
+      <Container loading={state === "loading" || "false"}>
         <Header size="huge">Posts</Header>
-        {renderedPosts}
+        <Grid columns={3} stackable padded="vertically" doubling>
+          {renderedPosts(post => (
+            <Grid.Column key={post.id}>
+              <Post post={post} />
+            </Grid.Column>
+          ))}
+        </Grid>
 
         <Button
           primary

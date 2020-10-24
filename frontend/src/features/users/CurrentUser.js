@@ -1,17 +1,25 @@
 import React from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { Link, useLocation } from "react-router-dom"
 import { Button, Header } from "semantic-ui-react"
 import { logUserOut } from "../thunks"
-import { selectCurrentUser } from "../user/userSlice"
+import { useCurrentUser } from "../user/userSlice"
 
 function CurrentUser() {
-  const { user } = useSelector(selectCurrentUser)
+  const user = useCurrentUser()
+
+  const { pathname } = useLocation()
 
   const dispatch = useDispatch()
 
+  const isViewingOwnProfile = () => pathname === `/users/${user._id}`
+
   return (
-    <div className={`user-panel ${!user.email && "hidden"}`}>
+    <div
+      className={`user-panel ${
+        (!user.email || isViewingOwnProfile()) && "hidden"
+      }`}
+    >
       <Link to={`/users/${user._id}`}>
         <img
           src={
