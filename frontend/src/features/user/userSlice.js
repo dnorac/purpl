@@ -25,7 +25,7 @@ const userSlice = createSlice({
     },
     [registerUser.fulfilled]: (state, action) => {
       state.state = "idle"
-      state.user = action.payload
+      state.user = {}
       state.error = ""
     },
     [registerUser.rejected]: (state, action) => {

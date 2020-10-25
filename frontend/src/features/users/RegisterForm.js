@@ -1,3 +1,4 @@
+import { unwrapResult } from "@reduxjs/toolkit"
 import React, { useEffect } from "react"
 import { Helmet } from "react-helmet"
 import { useForm } from "react-hook-form"
@@ -15,7 +16,7 @@ import {
   Segment,
 } from "semantic-ui-react"
 import logo from "../../app/logo.png"
-import { registerUser } from "../thunks"
+import { logUserIn, registerUser } from "../thunks"
 import { selectCurrentUser } from "../user/userSlice"
 
 function RegisterForm() {
@@ -35,7 +36,11 @@ function RegisterForm() {
 
   if (user.email) return <Redirect to="/profile" />
 
-  const onSubmit = async data => dispatch(registerUser(data))
+  const onSubmit = async data => {
+    const resultAction = await dispatch(registerUser(data))
+    console.log(unwrapResult(resultAction))
+    dispatch(logUserIn(data))
+  }
 
   return (
     <Segment basic>
@@ -43,7 +48,12 @@ function RegisterForm() {
         <Grid centered container stackable>
           <Grid.Row>
             <Grid.Column width="6">
-              <Image src={logo} alt="" className="logo-big" centered />
+              <Image
+                src={logo}
+                alt="Purpl logo"
+                className="logo-big"
+                centered
+              />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -156,7 +166,16 @@ function RegisterForm() {
                     </label>
                   }
                 />
-                <Button primary>Registrar</Button>
+                <Button.Group fluid>
+                  <Button primary content="Registrar" />
+                  <Button.Or text="ou" />
+                  <Button
+                    type="button"
+                    content="Faça login"
+                    as={Link}
+                    to="/login"
+                  />
+                </Button.Group>
               </Form>
             </Grid.Column>
           </Grid.Row>

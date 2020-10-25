@@ -1,7 +1,7 @@
 import React from "react"
 import { useDispatch } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
-import { Button, Header } from "semantic-ui-react"
+import { Button } from "semantic-ui-react"
 import { logUserOut } from "../thunks"
 import { useCurrentUser } from "../user/userSlice"
 
@@ -27,17 +27,19 @@ function CurrentUser() {
             "https://www.lateralesquerdo.com/wp-content/uploads/2016/07/no-avatar.png"
           }
           alt={user.email || ""}
-          className="small-avatar"
         />
       </Link>
       <div className="user-panel-info">
-        <Header>
-          Olá, <span>{(user.email && user.firstName) || "Visitante"}</span>!
-        </Header>
+        <h5>
+          Olá,
+          <br />
+          <span>{(user.email && user.firstName) || "Visitante"}</span>!
+        </h5>
         {user.email && (
           <Button
             color="red"
             size="tiny"
+            compact
             onClick={() => dispatch(logUserOut())}
           >
             Sair

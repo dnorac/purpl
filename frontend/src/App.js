@@ -11,10 +11,12 @@ import { fetchPosts } from "./features/posts/postsSlice"
 import SinglePostPage from "./features/posts/SinglePostPage"
 import { fetchUsers, recoverToken } from "./features/thunks"
 import LoginForm from "./features/user/LoginForm"
+import PasswordRecovery from "./features/user/PasswordRecovery"
 import UpdateProfileForm from "./features/user/UpdateProfileForm"
 import CurrentUser from "./features/users/CurrentUser"
 import RegisterForm from "./features/users/RegisterForm"
 import SingleUserPage from "./features/users/SingleUserPage"
+import TermsOfService from "./features/users/TermsOfService"
 import UserList from "./features/users/UserList"
 
 function App() {
@@ -44,11 +46,17 @@ function App() {
         <Route path="/users">
           <UserList />
         </Route>
-        <Route path="/register">
+        <Route path="/registro">
           <RegisterForm />
         </Route>
         <Route path="/login">
           <LoginForm />
+        </Route>
+        <Route path="/recuperar">
+          <PasswordRecovery />
+        </Route>
+        <Route path="/termos">
+          <TermsOfService />
         </Route>
         <Route path="/posts/add">
           <AddPostForm />

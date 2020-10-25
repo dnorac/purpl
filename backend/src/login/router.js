@@ -44,11 +44,15 @@ router.post("/register", async (req, res) => {
   if (!hasRequiredKeys(required, data) || !passwordConfirmed(data))
     return res.sendStatus(401)
 
-  const newUser = await User.create({
-    ...data,
-    avatar: faker.image.avatar(),
-  })
-  res.json(newUser)
+  try {
+    const newUser = await User.create({
+      ...data,
+      avatar: faker.image.avatar(),
+    })
+    res.json({ status: "success", user: newUser })
+  } catch (error) {
+    res.json({ status: "error", error: "User already exists" })
+  }
 })
 
 router.post("/updateProfile", withAuth, async (req, res) => {

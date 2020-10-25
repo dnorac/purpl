@@ -38,7 +38,12 @@ function LoginForm() {
         <Grid container centered stackable>
           <Grid.Row>
             <Grid.Column width="4">
-              <Image src={logo} alt="" centered />
+              <Image
+                src={logo}
+                alt="Purpl logo"
+                centered
+                className="logo-big"
+              />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -86,12 +91,15 @@ function LoginForm() {
                     await trigger(name)
                   }}
                 />
+                <p style={{ textAlign: "center" }}>
+                  <Link to="/recuperar">Esqueceu sua senha?</Link>
+                </p>
                 <Button.Group fluid>
                   <Button primary type="submit">
                     Conectar
                   </Button>
                   <Button.Or text="ou" />
-                  <Button as={Link} to="/register">
+                  <Button as={Link} to="/registro">
                     Registre-se
                   </Button>
                 </Button.Group>

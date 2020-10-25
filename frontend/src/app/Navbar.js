@@ -41,7 +41,7 @@ function Navbar() {
       ) : (
         <>
           <NavLink
-            to="/register"
+            to="/registro"
             activeClassName="active-navbar-link"
             exact
             className="navbar-link"

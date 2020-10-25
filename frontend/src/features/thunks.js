@@ -11,9 +11,10 @@ export const registerUser = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.post("/api/register", payload)
+      if (data.status === "error") throw data.error
       return data
     } catch (error) {
-      return thunkAPI.rejectWithValue()
+      return thunkAPI.rejectWithValue(error)
     }
   }
 )
@@ -60,7 +61,7 @@ export const updateProfile = createAsyncThunk(
   "user/updateProfile",
   async (payload, thunkAPI) => {
     try {
-      const { data } = (await axios.post("/api/updateProfile", payload)).data
+      const { data } = await axios.post("/api/updateProfile", payload)
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue()

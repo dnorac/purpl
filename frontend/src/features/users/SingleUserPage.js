@@ -86,7 +86,7 @@ function SingleUserPage() {
           <Container>
             {!user.email ? (
               <p>
-                <Link to="/register">Registre-se</Link> ou{" "}
+                <Link to="/registro">Registre-se</Link> ou{" "}
                 <Link to="/login">faça login</Link> para ver mais informações.
               </p>
             ) : (
@@ -106,13 +106,23 @@ function SingleUserPage() {
                 )}
                 <Header size="huge">Últimos posts</Header>
 
-                <Grid columns={3} stackable doubling>
-                  {posts.map(post => (
-                    <Grid.Column key={post.id}>
-                      <Post post={post} showAuthor={false} />
-                    </Grid.Column>
-                  ))}
-                </Grid>
+                {posts.length ? (
+                  <Grid columns={3} stackable doubling>
+                    {posts.map(post => (
+                      <Grid.Column key={post.id}>
+                        <Post post={post} showAuthor={false} />
+                      </Grid.Column>
+                    ))}
+                  </Grid>
+                ) : (
+                  <p>
+                    {user._id === pageUser._id ? "Você" : pageUser.firstName}{" "}
+                    não postou nada ainda.{" "}
+                    {user._id === pageUser._id && (
+                      <Link to="/posts/add">Faça um novo post!</Link>
+                    )}
+                  </p>
+                )}
               </>
             )}
           </Container>
