@@ -1,10 +1,10 @@
-import React from "react"
-import { Link, NavLink } from "react-router-dom"
-import { useCurrentUser } from "../features/user/userSlice"
-import logo from "./logo.png"
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useCurrentUser } from "../features/user/userSlice";
+import logo from "./logo.png";
 
 function Navbar() {
-  const user = useCurrentUser()
+  const user = useCurrentUser();
 
   return (
     <nav className="navbar">
@@ -59,7 +59,7 @@ function Navbar() {
         </>
       )}
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

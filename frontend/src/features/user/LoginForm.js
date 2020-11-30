@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import { Helmet } from "react-helmet"
-import { useForm } from "react-hook-form"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, Redirect } from "react-router-dom"
+import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import {
   Button,
   Container,
@@ -13,31 +13,31 @@ import {
   Input,
   Message,
   Segment,
-} from "semantic-ui-react"
-import logo from "../../app/logo.png"
-import { logUserIn } from "../thunks"
-import { selectCurrentUser } from "./userSlice"
+} from "semantic-ui-react";
+import logo from "../../app/logo.png";
+import { logUserIn } from "../thunks";
+import { selectCurrentUser } from "./userSlice";
 
 function LoginForm() {
-  const dispatch = useDispatch()
-  const { handleSubmit, register, errors, setValue, trigger } = useForm()
-  const { user, error, state } = useSelector(selectCurrentUser)
+  const dispatch = useDispatch();
+  const { handleSubmit, register, errors, setValue, trigger } = useForm();
+  const { user, error, state } = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    register({ name: "email" }, { required: "Digite seu email." })
-    register({ name: "password" }, { required: "Digite sua senha." })
-  }, [register])
+    register({ name: "email" }, { required: "Digite seu email." });
+    register({ name: "password" }, { required: "Digite sua senha." });
+  }, [register]);
 
-  const onSubmit = data => dispatch(logUserIn(data))
+  const onSubmit = (data) => dispatch(logUserIn(data));
 
-  if (user.email) return <Redirect to="/profile" />
+  if (user.email) return <Redirect to="/profile" />;
 
   return (
     <Segment basic>
       <Container>
         <Grid container centered stackable>
           <Grid.Row>
-            <Grid.Column width="4">
+            <Grid.Column>
               <Image
                 src={logo}
                 alt="Purpl logo"
@@ -47,7 +47,7 @@ function LoginForm() {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column width="4">
+            <Grid.Column>
               <Form
                 onSubmit={handleSubmit(onSubmit)}
                 loading={state === "loading"}
@@ -65,8 +65,8 @@ function LoginForm() {
                   name="email"
                   type="email"
                   onChange={async (e, { name, value }) => {
-                    setValue(name, value)
-                    await trigger("email")
+                    setValue(name, value);
+                    await trigger("email");
                   }}
                   error={
                     errors.email
@@ -87,8 +87,8 @@ function LoginForm() {
                       : false
                   }
                   onChange={async (e, { name, value }) => {
-                    setValue(name, value)
-                    await trigger(name)
+                    setValue(name, value);
+                    await trigger(name);
                   }}
                 />
                 <p style={{ textAlign: "center" }}>
@@ -109,7 +109,7 @@ function LoginForm() {
         </Grid>
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;

@@ -1,12 +1,12 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const onConnect = error => {
   if (error) {
-    console.error("[MongoDB]", error)
-    process.exit(1)
+    console.error("[MongoDB]", error);
+    process.exit(1);
   }
-  console.log("[MongoDB] Connected")
-}
+  console.log("[MongoDB] Connected");
+};
 
 mongoose.connect(
   process.env.MONGOURI,
@@ -17,4 +17,4 @@ mongoose.connect(
     useFindAndModify: false,
   },
   onConnect
-)
+);

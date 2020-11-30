@@ -1,7 +1,7 @@
-import React, { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, Redirect, useHistory, useRouteMatch } from "react-router-dom"
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect, useHistory, useRouteMatch } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -12,16 +12,16 @@ import {
   Input,
   Segment,
   TextArea,
-} from "semantic-ui-react"
-import { useCurrentUser } from "../user/userSlice"
-import { postUpdated, selectPostById } from "./postsSlice"
+} from "semantic-ui-react";
+import { useCurrentUser } from "../user/userSlice";
+import { postUpdated, selectPostById } from "./postsSlice";
 
 function EditPostForm() {
   const {
     params: { postId },
-  } = useRouteMatch()
+  } = useRouteMatch();
 
-  const post = useSelector(selectPostById(postId))
+  const post = useSelector(selectPostById(postId));
 
   const { register, handleSubmit, errors, setValue, trigger } = useForm({
     defaultValues: {
@@ -29,28 +29,31 @@ function EditPostForm() {
       content: post.content,
       visible: post.visible,
     },
-  })
+  });
 
   useEffect(() => {
-    register({ name: "title" }, { required: "Digite um título para seu post." })
+    register(
+      { name: "title" },
+      { required: "Digite um título para seu post." }
+    );
     register(
       { name: "content" },
       { required: "Seu post precisa ter um corpo." }
-    )
-    register({ name: "visible" })
-  }, [register])
+    );
+    register({ name: "visible" });
+  }, [register]);
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const dispatch = useDispatch()
-  const onSubmit = data => {
-    dispatch(postUpdated({ ...data, id: post.id }))
-    history.push("/posts")
-  }
+  const dispatch = useDispatch();
+  const onSubmit = (data) => {
+    dispatch(postUpdated({ ...data, id: post.id }));
+    history.push("/posts");
+  };
 
-  const user = useCurrentUser()
+  const user = useCurrentUser();
 
-  if (!user.email) return <Redirect to="/login" />
+  if (!user.email) return <Redirect to="/login" />;
 
   return (
     <Segment basic>
@@ -65,8 +68,8 @@ function EditPostForm() {
             name="title"
             type="text"
             onChange={async (e, { name, value }) => {
-              setValue(name, value)
-              await trigger("title")
+              setValue(name, value);
+              await trigger("title");
             }}
             autoFocus
             error={
@@ -82,8 +85,8 @@ function EditPostForm() {
             defaultValue={post.content}
             name="content"
             onChange={async (e, { name, value }) => {
-              setValue(name, value)
-              await trigger("title")
+              setValue(name, value);
+              await trigger("title");
             }}
             error={
               errors.content
@@ -96,8 +99,8 @@ function EditPostForm() {
             label="Publicar este post"
             name="visible"
             onChange={async (e, { name, checked }) => {
-              setValue(name, checked)
-              await trigger("visible")
+              setValue(name, checked);
+              await trigger("visible");
             }}
             defaultChecked={post.visible}
           />
@@ -113,7 +116,7 @@ function EditPostForm() {
         </Form>
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default EditPostForm
+export default EditPostForm;

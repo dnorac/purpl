@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const { Schema } = mongoose
+const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
@@ -29,20 +29,20 @@ const userSchema = new Schema(
   {
     timestamps: true,
   }
-)
+);
 
 userSchema.pre("save", function (next) {
   if (this.isNew || this.isModified("password")) {
-    const document = this
-    const saltRounds = 10
-    const hashedPassword = bcrypt.hashSync(document.password, saltRounds)
-    document.password = hashedPassword
-    next()
+    const document = this;
+    const saltRounds = 10;
+    const hashedPassword = bcrypt.hashSync(document.password, saltRounds);
+    document.password = hashedPassword;
+    next();
   }
-})
+});
 
 userSchema.methods.isCorrectPassword = function (password) {
-  return bcrypt.compareSync(password, this.password)
-}
+  return bcrypt.compareSync(password, this.password);
+};
 
-module.exports = mongoose.model("User", userSchema)
+module.exports = mongoose.model("User", userSchema);

@@ -1,18 +1,25 @@
-import React from "react"
-import { useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { Button, Header, Image, Label, Popup, Segment } from "semantic-ui-react"
-import { useCurrentUser } from "../user/userSlice"
-import { deletePost, toggleVisibility, usePostAuthor } from "./postsSlice"
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import {
+  Button,
+  Header,
+  Image,
+  Label,
+  Popup,
+  Segment,
+} from "semantic-ui-react";
+import { useCurrentUser } from "../user/userSlice";
+import { deletePost, toggleVisibility, usePostAuthor } from "./postsSlice";
 
 function Post({ post, showAuthor = true }) {
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const user = useCurrentUser()
-  const author = usePostAuthor(post.authorId)
+  const user = useCurrentUser();
+  const author = usePostAuthor(post.authorId);
 
-  if (!author || (!post.visible && user._id !== post.authorId)) return null
+  if (!author || (!post.visible && user._id !== post.authorId)) return null;
 
   return (
     <Segment.Group>
@@ -86,7 +93,7 @@ function Post({ post, showAuthor = true }) {
         )}
       </Segment>
     </Segment.Group>
-  )
+  );
 }
 
-export default Post
+export default Post;

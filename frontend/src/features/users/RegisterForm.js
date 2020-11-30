@@ -1,9 +1,9 @@
-import { unwrapResult } from "@reduxjs/toolkit"
-import React, { useEffect } from "react"
-import { Helmet } from "react-helmet"
-import { useForm } from "react-hook-form"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, Redirect } from "react-router-dom"
+import { unwrapResult } from "@reduxjs/toolkit";
+import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -14,40 +14,44 @@ import {
   Image,
   Input,
   Segment,
-} from "semantic-ui-react"
-import logo from "../../app/logo.png"
-import { logUserIn, registerUser } from "../thunks"
-import { selectCurrentUser } from "../user/userSlice"
+} from "semantic-ui-react";
+import logo from "../../app/logo.png";
+import { logUserIn, registerUser } from "../thunks";
+import { selectCurrentUser } from "../user/userSlice";
 
 function RegisterForm() {
-  const { register, handleSubmit, errors, setValue, trigger } = useForm()
+  const { register, handleSubmit, errors, setValue, trigger } = useForm();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const { user, state } = useSelector(selectCurrentUser)
+  const { user, state } = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    register({ name: "firstName" }, { required: "Digite seu nome." })
-    register({ name: "lastName" }, { required: "Digite seu sobrenome." })
-    register({ name: "email" }, { required: "Digite seu email." })
-    register({ name: "password" }, { required: "Digite uma senha." })
-    register({ name: "passwordRepeat" }, { required: "Confirme a sua senha." })
-  }, [register])
+    register({ name: "firstName" }, { required: "Digite seu nome." });
+    register({ name: "lastName" }, { required: "Digite seu sobrenome." });
+    register({ name: "email" }, { required: "Digite seu email." });
+    register({ name: "password" }, { required: "Digite uma senha." });
+    register({ name: "passwordRepeat" }, { required: "Confirme a sua senha." });
+    register(
+      { name: "termsOfService" },
+      { required: "Aceite os termos de serviço." }
+    );
+  }, [register]);
 
-  if (user.email) return <Redirect to="/profile" />
+  if (user.email) return <Redirect to="/profile" />;
 
-  const onSubmit = async data => {
-    const resultAction = await dispatch(registerUser(data))
-    console.log(unwrapResult(resultAction))
-    dispatch(logUserIn(data))
-  }
+  const onSubmit = async (data) => {
+    const resultAction = await dispatch(registerUser(data));
+    console.log(unwrapResult(resultAction));
+    dispatch(logUserIn(data));
+  };
 
   return (
     <Segment basic>
       <Container>
         <Grid centered container stackable>
           <Grid.Row>
-            <Grid.Column width="6">
+            <Grid.Column>
               <Image
                 src={logo}
                 alt="Purpl logo"
@@ -57,7 +61,7 @@ function RegisterForm() {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column width="6">
+            <Grid.Column>
               <Form
                 loading={state === "loading"}
                 onSubmit={handleSubmit(onSubmit)}
@@ -76,8 +80,8 @@ function RegisterForm() {
                     label="Nome"
                     placeholder="Nome"
                     onChange={async (e, { name, value }) => {
-                      setValue(name, value)
-                      await trigger()
+                      setValue(name, value);
+                      await trigger();
                     }}
                     error={
                       errors.firstName
@@ -94,8 +98,8 @@ function RegisterForm() {
                     label="Sobrenome"
                     placeholder="Sobrenome"
                     onChange={async (e, { name, value }) => {
-                      setValue(name, value)
-                      await trigger()
+                      setValue(name, value);
+                      await trigger();
                     }}
                     error={
                       errors.lastName
@@ -112,8 +116,8 @@ function RegisterForm() {
                   label="Email"
                   placeholder="Email"
                   onChange={async (e, { name, value }) => {
-                    setValue(name, value)
-                    await trigger()
+                    setValue(name, value);
+                    await trigger();
                   }}
                   error={
                     errors.email ? { content: errors.email.message } : false
@@ -128,8 +132,8 @@ function RegisterForm() {
                     label="Senha"
                     placeholder="Senha"
                     onChange={async (e, { name, value }) => {
-                      setValue(name, value)
-                      await trigger()
+                      setValue(name, value);
+                      await trigger();
                     }}
                     error={
                       errors.password
@@ -145,8 +149,8 @@ function RegisterForm() {
                     label="Repita a senha"
                     placeholder="Repita a senha"
                     onChange={async (e, { name, value }) => {
-                      setValue(name, value)
-                      await trigger()
+                      setValue(name, value);
+                      await trigger();
                     }}
                     error={
                       errors.passwordRepeat
@@ -159,11 +163,27 @@ function RegisterForm() {
                 </Form.Group>
                 <Form.Field
                   control={Checkbox}
+                  id="register-form-termsOfService"
+                  name="termsOfService"
+                  onChange={async (e, { name, checked }) => {
+                    setValue(name, checked);
+                    await trigger();
+                  }}
                   label={
                     <label>
                       Li e aceito os{" "}
-                      <Link to="/termos">termos e condições de serviço</Link>
+                      <Link to="/termos">termos e condições de uso</Link> e a{" "}
+                      <Link to="/privacidade">política de privacidade</Link> do
+                      Purpl.
                     </label>
+                  }
+                  error={
+                    errors.termsOfService
+                      ? {
+                          content: errors.termsOfService.message,
+                          pointing: "left",
+                        }
+                      : false
                   }
                 />
                 <Button.Group fluid>
@@ -182,7 +202,7 @@ function RegisterForm() {
         </Grid>
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default RegisterForm
+export default RegisterForm;

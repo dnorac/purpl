@@ -1,9 +1,9 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { Grid, Header, Image, Segment } from "semantic-ui-react"
+import React from "react";
+import { Link } from "react-router-dom";
+import { Grid, Header, Image, Segment } from "semantic-ui-react";
 
 function User({ user }) {
-  const { firstName, lastName, avatar } = user
+  const { firstName, lastName, avatar } = user;
 
   return (
     <Grid.Column
@@ -24,7 +24,7 @@ function User({ user }) {
         </Grid>
       </Segment>
     </Grid.Column>
-  )
+  );
 }
 
-export default User
+export default User;

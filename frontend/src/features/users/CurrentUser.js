@@ -1,18 +1,18 @@
-import React from "react"
-import { useDispatch } from "react-redux"
-import { Link, useLocation } from "react-router-dom"
-import { Button } from "semantic-ui-react"
-import { logUserOut } from "../thunks"
-import { useCurrentUser } from "../user/userSlice"
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "semantic-ui-react";
+import { logUserOut } from "../thunks";
+import { useCurrentUser } from "../user/userSlice";
 
 function CurrentUser() {
-  const user = useCurrentUser()
+  const user = useCurrentUser();
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const isViewingOwnProfile = () => pathname === `/users/${user._id}`
+  const isViewingOwnProfile = () => pathname === `/users/${user._id}`;
 
   return (
     <div
@@ -47,7 +47,7 @@ function CurrentUser() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default CurrentUser
+export default CurrentUser;

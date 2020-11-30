@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import "react-quill/dist/quill.snow.css"
-import { useDispatch } from "react-redux"
-import { Redirect, useHistory } from "react-router-dom"
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import "react-quill/dist/quill.snow.css";
+import { useDispatch } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -13,9 +13,9 @@ import {
   Input,
   Segment,
   TextArea,
-} from "semantic-ui-react"
-import { useCurrentUser } from "../user/userSlice"
-import { postAdded, useAllPosts } from "./postsSlice"
+} from "semantic-ui-react";
+import { useCurrentUser } from "../user/userSlice";
+import { postAdded, useAllPosts } from "./postsSlice";
 
 function AddPostForm() {
   const { register, handleSubmit, errors, setValue, trigger } = useForm({
@@ -24,26 +24,29 @@ function AddPostForm() {
       content: "",
       visible: true,
     },
-  })
+  });
 
   useEffect(() => {
-    register({ name: "title" }, { required: "Digite um título para seu post." })
+    register(
+      { name: "title" },
+      { required: "Digite um título para seu post." }
+    );
     register(
       { name: "content" },
       { required: "Seu post precisa ter um corpo." }
-    )
-    register({ name: "visible" })
-  }, [register])
+    );
+    register({ name: "visible" });
+  }, [register]);
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const user = useCurrentUser()
-  const { state } = useAllPosts()
+  const user = useCurrentUser();
+  const { state } = useAllPosts();
 
-  const onSubmit = data => {
-    const { title, content, visible } = data
+  const onSubmit = (data) => {
+    const { title, content, visible } = data;
     dispatch(
       postAdded({
         authorId: user._id,
@@ -52,10 +55,10 @@ function AddPostForm() {
         visible,
         callback: () => history.push("/posts"),
       })
-    )
-  }
+    );
+  };
 
-  if (!user.email) return <Redirect to="/login" />
+  if (!user.email) return <Redirect to="/login" />;
 
   return (
     <Segment basic>
@@ -69,8 +72,8 @@ function AddPostForm() {
             name="title"
             type="text"
             onChange={async (e, { name, value }) => {
-              setValue(name, value)
-              await trigger("title")
+              setValue(name, value);
+              await trigger("title");
             }}
             autoFocus
             error={
@@ -85,8 +88,8 @@ function AddPostForm() {
             placeholder="Seja criativo!"
             name="content"
             onChange={async (e, { name, value }) => {
-              setValue(name, value)
-              await trigger("title")
+              setValue(name, value);
+              await trigger("title");
             }}
             error={
               errors.content
@@ -104,8 +107,8 @@ function AddPostForm() {
             label="Publicar este post"
             name="visible"
             onChange={async (e, { name, checked }) => {
-              setValue(name, checked)
-              await trigger("visible")
+              setValue(name, checked);
+              await trigger("visible");
             }}
             defaultChecked={true}
           />
@@ -125,7 +128,7 @@ function AddPostForm() {
         </Form>
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default AddPostForm
+export default AddPostForm;

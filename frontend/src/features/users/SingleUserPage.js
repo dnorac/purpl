@@ -1,6 +1,6 @@
-import React, { createRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, useRouteMatch } from "react-router-dom"
+import React, { createRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useRouteMatch } from "react-router-dom";
 import {
   Button,
   Container,
@@ -10,31 +10,39 @@ import {
   Ref,
   Segment,
   Sticky,
-} from "semantic-ui-react"
-import Post from "../posts/Post"
-import { selectPostsByAuthor } from "../posts/postsSlice"
-import { logUserOut } from "../thunks"
-import { useCurrentUser } from "../user/userSlice"
-import { selectUserById } from "./usersSlice"
+} from "semantic-ui-react";
+import Post from "../posts/Post";
+import { selectPostsByAuthor } from "../posts/postsSlice";
+import { logUserOut } from "../thunks";
+import { useCurrentUser } from "../user/userSlice";
+import { selectUserById } from "./usersSlice";
 
 function SingleUserPage() {
-  const contextRef = createRef()
-  const match = useRouteMatch()
-  const { params } = useRouteMatch()
-  const dispatch = useDispatch()
+  const contextRef = createRef();
+  const match = useRouteMatch();
+  const { params } = useRouteMatch();
+  const dispatch = useDispatch();
 
-  const { userId } = params
+  const { userId } = params;
 
-  const posts = useSelector(selectPostsByAuthor(userId))
-  const pageUser = useSelector(selectUserById(userId))
-  const user = useCurrentUser()
+  const posts = useSelector(selectPostsByAuthor(userId));
+  const loading = useSelector((state) => state.users.state);
+  const pageUser = useSelector(selectUserById(userId));
+  const user = useCurrentUser();
+
+  if (loading === "loading")
+    return (
+      <Segment basic>
+        <h2>Loading...</h2>
+      </Segment>
+    );
 
   if (!pageUser)
     return (
       <section className="post-list">
         <h2>Usuário não encontrado! :(</h2>
       </section>
-    )
+    );
 
   const userControls = (
     <>
@@ -47,7 +55,7 @@ function SingleUserPage() {
       />
       <Button negative onClick={() => dispatch(logUserOut())} content="Sair" />
     </>
-  )
+  );
   return (
     <>
       <Segment basic className="profile-header">
@@ -108,7 +116,7 @@ function SingleUserPage() {
 
                 {posts.length ? (
                   <Grid columns={3} stackable doubling>
-                    {posts.map(post => (
+                    {posts.map((post) => (
                       <Grid.Column key={post.id}>
                         <Post post={post} showAuthor={false} />
                       </Grid.Column>
@@ -129,7 +137,7 @@ function SingleUserPage() {
         </Ref>
       </Segment>
     </>
-  )
+  );
 }
 
-export default SingleUserPage
+export default SingleUserPage;

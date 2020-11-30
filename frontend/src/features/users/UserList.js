@@ -1,39 +1,39 @@
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
-import { Container, Grid, Segment } from "semantic-ui-react"
-import { fetchUsers } from "../thunks"
-import { useCurrentUser } from "../user/userSlice"
-import { selectAllUsers } from "../users/usersSlice"
-import User from "./User"
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { Container, Grid, Segment } from "semantic-ui-react";
+import { fetchUsers } from "../thunks";
+import { useCurrentUser } from "../user/userSlice";
+import { selectAllUsers } from "../users/usersSlice";
+import User from "./User";
 
 function UserList() {
-  const { users, state } = useSelector(selectAllUsers)
-  const user = useCurrentUser()
+  const { users, state } = useSelector(selectAllUsers);
+  const user = useCurrentUser();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUsers())
-  }, [dispatch])
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
-  if (!user.email) return <Redirect to="/login" />
+  if (!user.email) return <Redirect to="/login" />;
 
-  if (state === "loading") return <h1>Carregando...</h1>
+  if (state === "loading") return <h1>Carregando...</h1>;
 
-  if (users.length === 0) return <h1>Não há usuários. :(</h1>
+  if (users.length === 0) return <h1>Não há usuários. :(</h1>;
 
   return (
     <Segment basic>
       <Container>
         <Grid columns={3} stackable doubling>
-          {users.map(user => (
+          {users.map((user) => (
             <User key={user._id} user={user} />
           ))}
         </Grid>
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default UserList
+export default UserList;

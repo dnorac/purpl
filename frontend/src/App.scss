@@ -32,7 +32,7 @@ $primary-color: #591e9c;
   $hover-background: lighten($primary-color, 60%);
 
   display: inline-block;
-  color: #bbb;
+  color: lighten($primary-color, 20%);
   padding: 0.5rem;
   margin: 0.5rem;
   text-decoration: none;

@@ -1,9 +1,9 @@
-import React from "react"
-import { useHistory } from "react-router-dom"
-import { Button, Container, Header, Segment } from "semantic-ui-react"
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { Button, Container, Header, Segment } from "semantic-ui-react";
 
 function PasswordRecovery() {
-  const history = useHistory()
+  const history = useHistory();
 
   return (
     <Segment basic>
@@ -16,7 +16,7 @@ function PasswordRecovery() {
         />
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default PasswordRecovery
+export default PasswordRecovery;

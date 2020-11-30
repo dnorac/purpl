@@ -1,12 +1,12 @@
-import React from "react"
-import { useSelector } from "react-redux"
-import { Link, Redirect, useRouteMatch } from "react-router-dom"
-import { Button, Container, Header, Image, Segment } from "semantic-ui-react"
-import { useCurrentUser } from "../user/userSlice"
-import { selectPostById, usePostAuthor } from "./postsSlice"
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link, Redirect, useRouteMatch } from "react-router-dom";
+import { Button, Container, Header, Image, Segment } from "semantic-ui-react";
+import { useCurrentUser } from "../user/userSlice";
+import { selectPostById, usePostAuthor } from "./postsSlice";
 
 const Post = ({ post }) => {
-  const author = usePostAuthor(post.authorId)
+  const author = usePostAuthor(post.authorId);
 
   return (
     <Segment.Group>
@@ -25,17 +25,17 @@ const Post = ({ post }) => {
         </Container>
       </Segment>
     </Segment.Group>
-  )
-}
+  );
+};
 
 function SinglePostPage() {
   const {
     params: { postId },
-  } = useRouteMatch()
-  const post = useSelector(selectPostById(postId))
-  const user = useCurrentUser()
+  } = useRouteMatch();
+  const post = useSelector(selectPostById(postId));
+  const user = useCurrentUser();
 
-  if (!user.email) return <Redirect to="/login" />
+  if (!user.email) return <Redirect to="/login" />;
 
   if (!post)
     return (
@@ -45,7 +45,7 @@ function SinglePostPage() {
           Voltar
         </Link>
       </div>
-    )
+    );
 
   return (
     <Segment basic>
@@ -56,7 +56,7 @@ function SinglePostPage() {
         </Button>
       </Container>
     </Segment>
-  )
+  );
 }
 
-export default SinglePostPage
+export default SinglePostPage;
