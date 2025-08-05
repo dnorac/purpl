@@ -14,24 +14,25 @@ const usersSlice = createSlice({
       state.users.push(action.payload);
     },
   },
-  extraReducers: {
-    [fetchUsers.pending]: (state, action) => {},
-    [fetchUsers.fulfilled]: (state, action) => {
-      return {
-        state: "idle",
-        users: action.payload.map((user) => ({
-          ...user,
-        })),
-      };
-    },
-    [fetchUsers.rejected]: (state, action) => {
-      return { state: "error", users: [] };
-    },
-    [registerUser.pending]: (state, action) => {},
-    [registerUser.fulfilled]: (state, action) => {
-      state.users.push(action.payload);
-    },
-    [registerUser.rejected]: (state, action) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state, action) => {})
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        return {
+          state: "idle",
+          users: action.payload.map((user) => ({
+            ...user,
+          })),
+        };
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        return { state: "error", users: [] };
+      })
+      .addCase(registerUser.pending, (state, action) => {})
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.users.push(action.payload);
+      })
+      .addCase(registerUser.rejected, (state, action) => {});
   },
 });
 

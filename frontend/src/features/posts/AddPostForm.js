@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -18,7 +17,13 @@ import { useCurrentUser } from "../user/userSlice";
 import { postAdded, useAllPosts } from "./postsSlice";
 
 function AddPostForm() {
-  const { register, handleSubmit, errors, setValue, trigger } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    trigger,
+  } = useForm({
     defaultValues: {
       title: "",
       content: "",
@@ -26,19 +31,7 @@ function AddPostForm() {
     },
   });
 
-  useEffect(() => {
-    register(
-      { name: "title" },
-      { required: "Digite um título para seu post." }
-    );
-    register(
-      { name: "content" },
-      { required: "Seu post precisa ter um corpo." }
-    );
-    register({ name: "visible" });
-  }, [register]);
-
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -53,12 +46,12 @@ function AddPostForm() {
         title,
         content,
         visible,
-        callback: () => history.push("/posts"),
+        callback: () => navigate("/posts"),
       })
     );
   };
 
-  if (!user.email) return <Redirect to="/login" />;
+  if (!user.email) return <Navigate to="/login" replace />;
 
   return (
     <Segment basic>
@@ -116,7 +109,7 @@ function AddPostForm() {
             <Button
               content="Voltar"
               icon="arrow left"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
             />
             <Button animated primary>
               <Button.Content visible content="Postar" />

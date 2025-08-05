@@ -1,6 +1,5 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import { Link, Redirect, useRouteMatch } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { Button, Container, Header, Image, Segment } from "semantic-ui-react";
 import { useCurrentUser } from "../user/userSlice";
 import { selectPostById, usePostAuthor } from "./postsSlice";
@@ -29,13 +28,11 @@ const Post = ({ post }) => {
 };
 
 function SinglePostPage() {
-  const {
-    params: { postId },
-  } = useRouteMatch();
+  const { postId } = useParams();
   const post = useSelector(selectPostById(postId));
   const user = useCurrentUser();
 
-  if (!user.email) return <Redirect to="/login" />;
+  if (!user.email) return <Navigate to="/login" replace />;
 
   if (!post)
     return (

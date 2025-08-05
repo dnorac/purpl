@@ -1,6 +1,6 @@
-import React, { createRef } from "react";
+import { createRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import {
   Button,
   Container,
@@ -19,11 +19,9 @@ import { selectUserById } from "./usersSlice";
 
 function SingleUserPage() {
   const contextRef = createRef();
-  const match = useRouteMatch();
-  const { params } = useRouteMatch();
+  const { userId } = useParams();
+  const location = useLocation();
   const dispatch = useDispatch();
-
-  const { userId } = params;
 
   const posts = useSelector(selectPostsByAuthor(userId));
   const loading = useSelector((state) => state.users.state);
@@ -48,7 +46,7 @@ function SingleUserPage() {
     <>
       <Button
         as={Link}
-        to={`${match.url}/update`}
+        to={`/users/${userId}/update`}
         content="Alterar perfil"
         icon="setting"
         labelPosition="left"

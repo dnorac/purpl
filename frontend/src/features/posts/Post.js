@@ -1,6 +1,5 @@
-import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Header,
@@ -14,7 +13,7 @@ import { deletePost, toggleVisibility, usePostAuthor } from "./postsSlice";
 
 function Post({ post, showAuthor = true }) {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const user = useCurrentUser();
   const author = usePostAuthor(post.authorId);
@@ -72,7 +71,7 @@ function Post({ post, showAuthor = true }) {
               content="Editar post"
               trigger={
                 <Button
-                  onClick={() => history.push(`/posts/${post.id}/edit`)}
+                  onClick={() => navigate(`/posts/${post.id}/edit`)}
                   color="grey"
                   icon="edit"
                 />
@@ -83,7 +82,7 @@ function Post({ post, showAuthor = true }) {
               content="Ver post"
               trigger={
                 <Button
-                  onClick={() => history.push(`/posts/${post.id}`)}
+                  onClick={() => navigate(`/posts/${post.id}`)}
                   color="grey"
                   icon="arrow right"
                 />

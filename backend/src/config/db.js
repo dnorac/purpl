@@ -1,20 +1,13 @@
 const mongoose = require("mongoose");
 
-const onConnect = error => {
-  if (error) {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGOURI);
+    console.log("[MongoDB] Connected");
+  } catch (error) {
     console.error("[MongoDB]", error);
     process.exit(1);
   }
-  console.log("[MongoDB] Connected");
 };
 
-mongoose.connect(
-  process.env.MONGOURI,
-  {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  },
-  onConnect
-);
+connectDB();

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Navbar from "./app/Navbar";
 import AddPostForm from "./features/posts/AddPostForm";
@@ -37,44 +37,20 @@ function App() {
       <Navbar />
       <CurrentUser />
 
-      <Switch>
-        <Route path="/users/:userId/update">
-          <UpdateProfileForm />
-        </Route>
-        <Route path="/users/:userId">
-          <SingleUserPage />
-        </Route>
-        <Route path="/users">
-          <UserList />
-        </Route>
-        <Route path="/registro">
-          <RegisterForm />
-        </Route>
-        <Route path="/login">
-          <LoginForm />
-        </Route>
-        <Route path="/recuperar">
-          <PasswordRecovery />
-        </Route>
-        <Route path="/termos">
-          <TermsOfService />
-        </Route>
-        <Route path="/privacidade">
-          <PrivacyPolicy />
-        </Route>
-        <Route path="/posts/add">
-          <AddPostForm />
-        </Route>
-        <Route path="/posts/:postId/edit">
-          <EditPostForm />
-        </Route>
-        <Route path="/posts/:postId">
-          <SinglePostPage />
-        </Route>
-        <Route path="/">
-          <PostList />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/users/:userId/update" element={<UpdateProfileForm />} />
+        <Route path="/users/:userId" element={<SingleUserPage />} />
+        <Route path="/users" element={<UserList />} />
+        <Route path="/registro" element={<RegisterForm />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/recuperar" element={<PasswordRecovery />} />
+        <Route path="/termos" element={<TermsOfService />} />
+        <Route path="/privacidade" element={<PrivacyPolicy />} />
+        <Route path="/posts/add" element={<AddPostForm />} />
+        <Route path="/posts/:postId/edit" element={<EditPostForm />} />
+        <Route path="/posts/:postId" element={<SinglePostPage />} />
+        <Route path="/" element={<PostList />} />
+      </Routes>
     </>
   );
 }

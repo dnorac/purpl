@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../users/model");
-const faker = require("faker");
+const { faker } = require("@faker-js/faker");
 const jwt = require("jsonwebtoken");
 const { withAuth } = require("../middlewares");
 
@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
   ];
 
   const hasRequiredKeys = (keys, object) =>
-    keys.every(key => object.hasOwnProperty(key));
+    keys.every((key) => Object.prototype.hasOwnProperty.call(object, key));
 
   const passwordConfirmed = ({ password, passwordRepeat }) =>
     password === passwordRepeat;

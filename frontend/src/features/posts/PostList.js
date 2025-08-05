@@ -1,5 +1,4 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Button, Container, Grid, Header, Segment } from "semantic-ui-react";
 import { useCurrentUser } from "../user/userSlice";
 import Post from "./Post";
@@ -9,7 +8,7 @@ function PostList() {
   const { state, posts } = useAllPosts();
   const user = useCurrentUser();
 
-  if (!user.email) return <Redirect to="/login" />;
+  if (!user.email) return <Navigate to="/login" replace />;
 
   const renderedPosts = (child) =>
     (user.email ? posts : posts.filter((p) => p.visible)).map((post) => {

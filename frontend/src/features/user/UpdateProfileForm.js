@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Redirect, useRouteMatch } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import {
   Button,
   Container,
@@ -15,23 +14,21 @@ import { updateProfile } from "../thunks";
 import { useCurrentUser } from "./userSlice";
 
 function UpdateProfileForm() {
-  const match = useRouteMatch();
+  const { userId } = useParams();
   const user = useCurrentUser();
   const {
     handleSubmit,
-    register,
+    control,
     watch,
-    errors,
-    setValue,
-    trigger,
-  } = useForm();
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      avatar: "",
+    },
+  });
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    register({ name: "avatar" }, { required: "Você deve digitar uma URL." });
-  }, [register]);
-
-  if (!user._id || match.params.userId !== user._id) return <Redirect to="/" />;
+  if (!user._id || userId !== user._id) return <Navigate to="/" replace />;
 
   const onSubmit = (data) => {
     dispatch(updateProfile(data));
@@ -51,22 +48,26 @@ function UpdateProfileForm() {
               className="profile-avatar"
             />
           </Segment>
-          <Form.Field
-            error={
-              errors.avatar
-                ? { content: errors.avatar.message, pointing: "below" }
-                : false
-            }
-            control={Input}
-            type="text"
-            label="URL da Imagem"
-            defaultValue={user.avatar}
+          <Controller
             name="avatar"
-            placeholder="Avatar URL"
-            onChange={async (e, { name, value }) => {
-              setValue(name, value);
-              await trigger();
-            }}
+            control={control}
+            rules={{ required: "Você deve digitar uma URL." }}
+            render={({ field: { onChange, value, name } }) => (
+              <Form.Field
+                error={
+                  errors.avatar
+                    ? { content: errors.avatar.message, pointing: "below" }
+                    : false
+                }
+                control={Input}
+                type="text"
+                label="URL da Imagem"
+                name={name}
+                placeholder="Avatar URL"
+                value={value || user.avatar || ""}
+                onChange={(e, { value }) => onChange(value)}
+              />
+            )}
           />
           <Divider horizontal section>
             OU

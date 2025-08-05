@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -17,13 +16,17 @@ import { useCurrentUser } from "../user/userSlice";
 import { postUpdated, selectPostById } from "./postsSlice";
 
 function EditPostForm() {
-  const {
-    params: { postId },
-  } = useRouteMatch();
+  const { postId } = useParams();
 
   const post = useSelector(selectPostById(postId));
 
-  const { register, handleSubmit, errors, setValue, trigger } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    trigger,
+  } = useForm({
     defaultValues: {
       title: post.title,
       content: post.content,
@@ -31,29 +34,17 @@ function EditPostForm() {
     },
   });
 
-  useEffect(() => {
-    register(
-      { name: "title" },
-      { required: "Digite um título para seu post." }
-    );
-    register(
-      { name: "content" },
-      { required: "Seu post precisa ter um corpo." }
-    );
-    register({ name: "visible" });
-  }, [register]);
-
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     dispatch(postUpdated({ ...data, id: post.id }));
-    history.push("/posts");
+    navigate("/posts");
   };
 
   const user = useCurrentUser();
 
-  if (!user.email) return <Redirect to="/login" />;
+  if (!user.email) return <Navigate to="/login" replace />;
 
   return (
     <Segment basic>

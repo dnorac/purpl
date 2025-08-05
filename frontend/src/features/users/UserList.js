@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Container, Grid, Segment } from "semantic-ui-react";
 import { fetchUsers } from "../thunks";
 import { useCurrentUser } from "../user/userSlice";
@@ -17,7 +17,7 @@ function UserList() {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  if (!user.email) return <Redirect to="/login" />;
+  if (!user.email) return <Navigate to="/login" replace />;
 
   if (state === "loading") return <h1>Carregando...</h1>;
 

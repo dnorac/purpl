@@ -1,9 +1,8 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -20,25 +19,26 @@ import { logUserIn, registerUser } from "../thunks";
 import { selectCurrentUser } from "../user/userSlice";
 
 function RegisterForm() {
-  const { register, handleSubmit, errors, setValue, trigger } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      passwordRepeat: "",
+      termsOfService: false,
+    },
+  });
 
   const dispatch = useDispatch();
 
   const { user, state } = useSelector(selectCurrentUser);
 
-  useEffect(() => {
-    register({ name: "firstName" }, { required: "Digite seu nome." });
-    register({ name: "lastName" }, { required: "Digite seu sobrenome." });
-    register({ name: "email" }, { required: "Digite seu email." });
-    register({ name: "password" }, { required: "Digite uma senha." });
-    register({ name: "passwordRepeat" }, { required: "Confirme a sua senha." });
-    register(
-      { name: "termsOfService" },
-      { required: "Aceite os termos de serviço." }
-    );
-  }, [register]);
-
-  if (user.email) return <Redirect to="/profile" />;
+  if (user.email) return <Navigate to="/profile" replace />;
 
   const onSubmit = async (data) => {
     const resultAction = await dispatch(registerUser(data));
@@ -72,119 +72,150 @@ function RegisterForm() {
                 </Helmet>
                 <Header size="huge">Registro</Header>
                 <Form.Group widths="equal">
-                  <Form.Field
-                    control={Input}
-                    type="text"
-                    id="register-form-firstName"
+                  <Controller
                     name="firstName"
-                    label="Nome"
-                    placeholder="Nome"
-                    onChange={async (e, { name, value }) => {
-                      setValue(name, value);
-                      await trigger();
-                    }}
-                    error={
-                      errors.firstName
-                        ? { content: errors.firstName.message }
-                        : false
-                    }
-                    autoFocus
+                    control={control}
+                    rules={{ required: "Digite seu nome." }}
+                    render={({ field: { onChange, value, name } }) => (
+                      <Form.Field
+                        control={Input}
+                        type="text"
+                        id="register-form-firstName"
+                        name={name}
+                        label="Nome"
+                        placeholder="Nome"
+                        value={value || ""}
+                        onChange={(e, { value }) => onChange(value)}
+                        error={
+                          errors.firstName
+                            ? { content: errors.firstName.message }
+                            : false
+                        }
+                        autoFocus
+                      />
+                    )}
                   />
-                  <Form.Field
-                    control={Input}
-                    type="text"
-                    id="register-form-lastName"
+                  <Controller
                     name="lastName"
-                    label="Sobrenome"
-                    placeholder="Sobrenome"
-                    onChange={async (e, { name, value }) => {
-                      setValue(name, value);
-                      await trigger();
-                    }}
-                    error={
-                      errors.lastName
-                        ? { content: errors.lastName.message }
-                        : false
-                    }
+                    control={control}
+                    rules={{ required: "Digite seu sobrenome." }}
+                    render={({ field: { onChange, value, name } }) => (
+                      <Form.Field
+                        control={Input}
+                        type="text"
+                        id="register-form-lastName"
+                        name={name}
+                        label="Sobrenome"
+                        placeholder="Sobrenome"
+                        value={value || ""}
+                        onChange={(e, { value }) => onChange(value)}
+                        error={
+                          errors.lastName
+                            ? { content: errors.lastName.message }
+                            : false
+                        }
+                      />
+                    )}
                   />
                 </Form.Group>
-                <Form.Field
-                  control={Input}
-                  type="email"
-                  id="register-form-email"
+                <Controller
                   name="email"
-                  label="Email"
-                  placeholder="Email"
-                  onChange={async (e, { name, value }) => {
-                    setValue(name, value);
-                    await trigger();
-                  }}
-                  error={
-                    errors.email ? { content: errors.email.message } : false
-                  }
+                  control={control}
+                  rules={{ required: "Digite seu email." }}
+                  render={({ field: { onChange, value, name } }) => (
+                    <Form.Field
+                      control={Input}
+                      type="email"
+                      id="register-form-email"
+                      name={name}
+                      label="Email"
+                      placeholder="Email"
+                      value={value || ""}
+                      onChange={(e, { value }) => onChange(value)}
+                      error={
+                        errors.email ? { content: errors.email.message } : false
+                      }
+                    />
+                  )}
                 />
                 <Form.Group widths="equal">
-                  <Form.Field
-                    control={Input}
-                    type="password"
-                    id="register-form-password"
+                  <Controller
                     name="password"
-                    label="Senha"
-                    placeholder="Senha"
-                    onChange={async (e, { name, value }) => {
-                      setValue(name, value);
-                      await trigger();
-                    }}
-                    error={
-                      errors.password
-                        ? { content: errors.password.message }
-                        : false
-                    }
+                    control={control}
+                    rules={{ required: "Digite uma senha." }}
+                    render={({ field: { onChange, value, name } }) => (
+                      <Form.Field
+                        control={Input}
+                        type="password"
+                        id="register-form-password"
+                        name={name}
+                        label="Senha"
+                        placeholder="Senha"
+                        value={value || ""}
+                        onChange={(e, { value }) => onChange(value)}
+                        error={
+                          errors.password
+                            ? { content: errors.password.message }
+                            : false
+                        }
+                      />
+                    )}
                   />
-                  <Form.Field
-                    control={Input}
-                    type="password"
-                    id="register-form-passwordRepeat"
+                  <Controller
                     name="passwordRepeat"
-                    label="Repita a senha"
-                    placeholder="Repita a senha"
-                    onChange={async (e, { name, value }) => {
-                      setValue(name, value);
-                      await trigger();
-                    }}
-                    error={
-                      errors.passwordRepeat
-                        ? {
-                            content: errors.passwordRepeat.message,
-                          }
-                        : false
-                    }
+                    control={control}
+                    rules={{ required: "Confirme a sua senha." }}
+                    render={({ field: { onChange, value, name } }) => (
+                      <Form.Field
+                        control={Input}
+                        type="password"
+                        id="register-form-passwordRepeat"
+                        name={name}
+                        label="Repita a senha"
+                        placeholder="Repita a senha"
+                        value={value || ""}
+                        onChange={(e, { value }) => onChange(value)}
+                        error={
+                          errors.passwordRepeat
+                            ? {
+                                content: errors.passwordRepeat.message,
+                              }
+                            : false
+                        }
+                      />
+                    )}
                   />
                 </Form.Group>
-                <Form.Field
-                  control={Checkbox}
-                  id="register-form-termsOfService"
+                <Controller
                   name="termsOfService"
-                  onChange={async (e, { name, checked }) => {
-                    setValue(name, checked);
-                    await trigger();
-                  }}
-                  label={
-                    <label>
-                      Li e aceito os{" "}
-                      <Link to="/termos">termos e condições de uso</Link> e a{" "}
-                      <Link to="/privacidade">política de privacidade</Link> do
-                      Purpl.
-                    </label>
-                  }
-                  error={
-                    errors.termsOfService
-                      ? {
-                          content: errors.termsOfService.message,
-                          pointing: "left",
-                        }
-                      : false
-                  }
+                  control={control}
+                  rules={{ required: "Aceite os termos de serviço." }}
+                  render={({ field: { onChange, value, name } }) => (
+                    <Form.Field
+                      control={Checkbox}
+                      id="register-form-termsOfService"
+                      name={name}
+                      checked={value || false}
+                      onChange={(e, { checked }) => onChange(checked)}
+                      label={
+                        <label>
+                          Li e aceito os{" "}
+                          <Link to="/termos">termos e condições de uso</Link> e
+                          a{" "}
+                          <Link to="/privacidade">política de privacidade</Link>{" "}
+                          do Purpl.
+                        </label>
+                      }
+                      error={
+                        errors.termsOfService
+                          ? {
+                              content: errors.termsOfService.message,
+                              pointing: "left",
+                            }
+                          : false
+                      }
+                    />
+                  )}
                 />
                 <Button.Group fluid>
                   <Button primary content="Registrar" />

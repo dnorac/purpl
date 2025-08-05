@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useCurrentUser } from "../features/user/userSlice";
 import logo from "./logo.png";
@@ -15,25 +14,28 @@ function Navbar() {
         <>
           <NavLink
             to="/"
-            activeClassName="active-navbar-link"
-            exact
-            className="navbar-link"
+            end
+            className={({ isActive }) =>
+              isActive ? "navbar-link active-navbar-link" : "navbar-link"
+            }
           >
             Posts
           </NavLink>
           <NavLink
             to="/users"
-            activeClassName="active-navbar-link"
-            exact
-            className="navbar-link"
+            end
+            className={({ isActive }) =>
+              isActive ? "navbar-link active-navbar-link" : "navbar-link"
+            }
           >
             Usuários
           </NavLink>
           <NavLink
             to={`/users/${user._id}`}
-            className="navbar-link"
-            activeClassName="active-navbar-link"
-            exact
+            end
+            className={({ isActive }) =>
+              isActive ? "navbar-link active-navbar-link" : "navbar-link"
+            }
           >
             Perfil
           </NavLink>
@@ -42,17 +44,19 @@ function Navbar() {
         <>
           <NavLink
             to="/registro"
-            activeClassName="active-navbar-link"
-            exact
-            className="navbar-link"
+            end
+            className={({ isActive }) =>
+              isActive ? "navbar-link active-navbar-link" : "navbar-link"
+            }
           >
             Registro
           </NavLink>
           <NavLink
             to="/login"
-            activeClassName="active-navbar-link"
-            exact
-            className="navbar-link"
+            end
+            className={({ isActive }) =>
+              isActive ? "navbar-link active-navbar-link" : "navbar-link"
+            }
           >
             Login
           </NavLink>

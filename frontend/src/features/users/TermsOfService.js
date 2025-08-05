@@ -1,9 +1,8 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Container, Header, Segment } from "semantic-ui-react";
 
 function TermsOfService() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Segment basic>
@@ -115,7 +114,7 @@ function TermsOfService() {
         <Button
           content="Voltar"
           icon="arrow left"
-          onClick={() => history.goBack()}
+          onClick={() => navigate(-1)}
         />
       </Container>
     </Segment>

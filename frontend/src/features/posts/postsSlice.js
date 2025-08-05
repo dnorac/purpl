@@ -72,20 +72,21 @@ export const postsSlice = createSlice({
       );
     },
   },
-  extraReducers: {
-    [fetchPosts.fulfilled]: (state, action) => {
-      return state;
-    },
-    [fetchPosts.rejected]: (state, action) => {
-      return { state: "error", posts: [] };
-    },
-    [postAdded.pending]: (state, action) => {
-      state.state = "loading";
-    },
-    [postAdded.fulfilled]: (state, action) => {
-      state.state = "idle";
-      state.posts.push(action.payload);
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        return state;
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        return { state: "error", posts: [] };
+      })
+      .addCase(postAdded.pending, (state, action) => {
+        state.state = "loading";
+      })
+      .addCase(postAdded.fulfilled, (state, action) => {
+        state.state = "idle";
+        state.posts.push(action.payload);
+      });
   },
 });
 

@@ -17,60 +17,61 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  extraReducers: {
-    [registerUser.pending]: (state, action) => {
-      state.state = "loading";
-      state.user = {};
-      state.error = "";
-    },
-    [registerUser.fulfilled]: (state, action) => {
-      state.state = "idle";
-      state.user = {};
-      state.error = "";
-    },
-    [registerUser.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.user = {};
-      state.state = "idle";
-    },
-    [logUserIn.pending]: (state, action) => {
-      state.state = "loading";
-      state.error = "";
-      state.user = {};
-    },
-    [logUserIn.fulfilled]: (state, action) => {
-      state.state = "idle";
-      state.error = "";
-      state.user = action.payload;
-    },
-    [logUserIn.rejected]: (state, action) => {
-      state.state = "idle";
-      state.user = {};
-      state.error = action.payload;
-    },
-    [recoverToken.pending]: (state, action) => {
-      state.state = "loading";
-      state.error = "";
-      state.user = {};
-    },
-    [recoverToken.fulfilled]: (state, action) => {
-      state.state = "idle";
-      state.error = "";
-      state.user = action.payload;
-    },
-    [recoverToken.rejected]: (state, action) => {
-      state.state = "idle";
-      state.error = "";
-      state.user = {};
-    },
-    [logUserOut.fulfilled]: (state, action) => {
-      state.user = {};
-      state.error = "";
-      state.state = "idle";
-    },
-    [updateProfile.fulfilled]: (state, action) => {
-      state.user = { ...state.user, ...action.payload };
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(registerUser.pending, (state, action) => {
+        state.state = "loading";
+        state.user = {};
+        state.error = "";
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.state = "idle";
+        state.user = {};
+        state.error = "";
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.error = action.payload;
+        state.user = {};
+        state.state = "idle";
+      })
+      .addCase(logUserIn.pending, (state, action) => {
+        state.state = "loading";
+        state.error = "";
+        state.user = {};
+      })
+      .addCase(logUserIn.fulfilled, (state, action) => {
+        state.state = "idle";
+        state.error = "";
+        state.user = action.payload;
+      })
+      .addCase(logUserIn.rejected, (state, action) => {
+        state.state = "idle";
+        state.user = {};
+        state.error = action.payload;
+      })
+      .addCase(recoverToken.pending, (state, action) => {
+        state.state = "loading";
+        state.error = "";
+        state.user = {};
+      })
+      .addCase(recoverToken.fulfilled, (state, action) => {
+        state.state = "idle";
+        state.error = "";
+        state.user = action.payload;
+      })
+      .addCase(recoverToken.rejected, (state, action) => {
+        state.state = "idle";
+        state.error = "";
+        state.user = {};
+      })
+      .addCase(logUserOut.fulfilled, (state, action) => {
+        state.user = {};
+        state.error = "";
+        state.state = "idle";
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.user = { ...state.user, ...action.payload };
+      });
   },
 });
 

@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   Button,
   Container,
@@ -20,17 +19,21 @@ import { selectCurrentUser } from "./userSlice";
 
 function LoginForm() {
   const dispatch = useDispatch();
-  const { handleSubmit, register, errors, setValue, trigger } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
   const { user, error, state } = useSelector(selectCurrentUser);
-
-  useEffect(() => {
-    register({ name: "email" }, { required: "Digite seu email." });
-    register({ name: "password" }, { required: "Digite sua senha." });
-  }, [register]);
 
   const onSubmit = (data) => dispatch(logUserIn(data));
 
-  if (user.email) return <Redirect to="/profile" />;
+  if (user.email) return <Navigate to="/profile" replace />;
 
   return (
     <Segment basic>
@@ -58,38 +61,51 @@ function LoginForm() {
                 </Helmet>
                 <Header size="huge">Login</Header>
                 <Message error icon="x" header="Erro" content={error} />
-                <Form.Field
-                  control={Input}
-                  label="Email"
-                  placeholder="Email"
+                <Controller
                   name="email"
-                  type="email"
-                  onChange={async (e, { name, value }) => {
-                    setValue(name, value);
-                    await trigger("email");
-                  }}
-                  error={
-                    errors.email
-                      ? { content: errors.email.message, pointing: "below" }
-                      : false
-                  }
-                  autoFocus
+                  control={control}
+                  rules={{ required: "Digite seu email." }}
+                  render={({ field: { onChange, value, name } }) => (
+                    <Form.Field
+                      control={Input}
+                      label="Email"
+                      placeholder="Email"
+                      type="email"
+                      name={name}
+                      value={value || ""}
+                      onChange={(e, { value }) => onChange(value)}
+                      error={
+                        errors.email
+                          ? { content: errors.email.message, pointing: "below" }
+                          : false
+                      }
+                      autoFocus
+                    />
+                  )}
                 />
-                <Form.Field
-                  label="Senha"
-                  control={Form.Input}
-                  type="password"
+                <Controller
                   name="password"
-                  placeholder="Senha"
-                  error={
-                    errors.password
-                      ? { content: errors.password.message, pointing: "below" }
-                      : false
-                  }
-                  onChange={async (e, { name, value }) => {
-                    setValue(name, value);
-                    await trigger(name);
-                  }}
+                  control={control}
+                  rules={{ required: "Digite sua senha." }}
+                  render={({ field: { onChange, value, name } }) => (
+                    <Form.Field
+                      label="Senha"
+                      control={Form.Input}
+                      type="password"
+                      placeholder="Senha"
+                      name={name}
+                      value={value || ""}
+                      onChange={(e, { value }) => onChange(value)}
+                      error={
+                        errors.password
+                          ? {
+                              content: errors.password.message,
+                              pointing: "below",
+                            }
+                          : false
+                      }
+                    />
+                  )}
                 />
                 <p style={{ textAlign: "center" }}>
                   <Link to="/recuperar">Esqueceu sua senha?</Link>
