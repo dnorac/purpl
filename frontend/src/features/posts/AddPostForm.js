@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -18,11 +18,9 @@ import { postAdded, useAllPosts } from "./postsSlice";
 
 function AddPostForm() {
   const {
-    register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    trigger,
+    control,
   } = useForm({
     defaultValues: {
       title: "",
@@ -58,52 +56,59 @@ function AddPostForm() {
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)} loading={state === "loading"}>
           <Header size="huge">Novo post</Header>
-          <Form.Field
-            control={Input}
-            label="Título"
-            placeholder="Escolha um bom título!"
+          <Controller
             name="title"
-            type="text"
-            onChange={async (e, { name, value }) => {
-              setValue(name, value);
-              await trigger("title");
-            }}
-            autoFocus
-            error={
-              errors.title
-                ? { content: errors.title.message, pointing: "below" }
-                : false
-            }
+            control={control}
+            rules={{ required: "Título é obrigatório" }}
+            render={({ field }) => (
+              <Form.Field
+                control={Input}
+                label="Título"
+                placeholder="Escolha um bom título!"
+                {...field}
+                autoFocus
+                error={
+                  errors.title
+                    ? { content: errors.title.message, pointing: "below" }
+                    : false
+                }
+              />
+            )}
           />
-          <Form.Field
-            control={TextArea}
-            label="Conteúdo"
-            placeholder="Seja criativo!"
+          <Controller
             name="content"
-            onChange={async (e, { name, value }) => {
-              setValue(name, value);
-              await trigger("title");
-            }}
-            error={
-              errors.content
-                ? { content: errors.content.message, pointing: "below" }
-                : false
-            }
+            control={control}
+            rules={{ required: "Conteúdo é obrigatório" }}
+            render={({ field }) => (
+              <Form.Field
+                control={TextArea}
+                label="Conteúdo"
+                placeholder="Seja criativo!"
+                {...field}
+                error={
+                  errors.content
+                    ? { content: errors.content.message, pointing: "below" }
+                    : false
+                }
+              />
+            )}
           />
           {/* <ReactQuill
             theme="snow"
             placeholder="Seja criativo!"
             onChange={handleQuillChanged}
           /> */}
-          <Form.Field
-            control={Checkbox}
-            label="Publicar este post"
+          <Controller
             name="visible"
-            onChange={async (e, { name, checked }) => {
-              setValue(name, checked);
-              await trigger("visible");
-            }}
-            defaultChecked={true}
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <Form.Field
+                control={Checkbox}
+                label="Publicar este post"
+                checked={value}
+                onChange={(e, { checked }) => onChange(checked)}
+              />
+            )}
           />
           <Button.Group>
             <Button
@@ -111,7 +116,7 @@ function AddPostForm() {
               icon="arrow left"
               onClick={() => navigate(-1)}
             />
-            <Button animated primary>
+            <Button animated primary type="submit">
               <Button.Content visible content="Postar" />
               <Button.Content hidden>
                 <Icon name="arrow right" />
