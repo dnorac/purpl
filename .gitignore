@@ -9,7 +9,7 @@ node_modules
 /frontend/coverage
 
 # production
-/frontend/build
+/frontend/dist
 
 # environment
 /backend/.env
