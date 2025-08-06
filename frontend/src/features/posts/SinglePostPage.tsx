@@ -121,7 +121,7 @@ function SinglePostPage() {
               <i className="file outline icon"></i>
               Post não encontrado! :(
             </Header>
-            <Button as={Link} to="/posts" primary>
+            <Button as={Link} to="/" primary>
               Voltar para Posts
             </Button>
           </Segment>
@@ -134,7 +134,7 @@ function SinglePostPage() {
     <Segment basic>
       <Container>
         <Post post={post} />
-        <Button as={Link} to="/posts">
+        <Button as={Link} to="/">
           Voltar
         </Button>
       </Container>
