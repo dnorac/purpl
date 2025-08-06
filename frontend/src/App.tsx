@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { useAppDispatch } from "./app/hooks";
 import Navbar from "./app/Navbar";
+import RequireAuth from "./features/auth/RequireAuth";
 import AddPostForm from "./features/posts/AddPostForm";
 import EditPostForm from "./features/posts/EditPostForm";
 import PostList from "./features/posts/PostList";
@@ -38,18 +39,67 @@ function App() {
       <CurrentUser />
 
       <Routes>
-        <Route path="/users/:userId/update" element={<UpdateProfileForm />} />
-        <Route path="/users/:userId" element={<SingleUserPage />} />
-        <Route path="/users" element={<UserList />} />
+        <Route
+          path="/users/:userId/update"
+          element={
+            <RequireAuth>
+              <UpdateProfileForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/users/:userId"
+          element={
+            <RequireAuth>
+              <SingleUserPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <RequireAuth>
+              <UserList />
+            </RequireAuth>
+          }
+        />
         <Route path="/registro" element={<RegisterForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/recuperar" element={<PasswordRecovery />} />
         <Route path="/termos" element={<TermsOfService />} />
         <Route path="/privacidade" element={<PrivacyPolicy />} />
-        <Route path="/posts/add" element={<AddPostForm />} />
-        <Route path="/posts/:postId/edit" element={<EditPostForm />} />
-        <Route path="/posts/:postId" element={<SinglePostPage />} />
-        <Route path="/" element={<PostList />} />
+        <Route
+          path="/posts/add"
+          element={
+            <RequireAuth>
+              <AddPostForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/posts/:postId/edit"
+          element={
+            <RequireAuth>
+              <EditPostForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/posts/:postId"
+          element={
+            <RequireAuth>
+              <SinglePostPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <PostList />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </>
   );
