@@ -4,13 +4,23 @@ const { withAuth } = require("../middlewares");
 
 const router = express.Router();
 
-// GET /posts - Fetch all visible posts
-router.get("/", async (req, res) => {
+// GET /posts - Fetch all posts visible to the user
+router.get("/", withAuth, async (req, res) => {
   try {
-    const posts = await Post.find({ visible: true })
-      .populate("authorId", "firstName lastName email")
-      .sort({ createdAt: -1 });
-
+    let posts;
+    if (req.userId) {
+      // Show all posts for the logged-in user (their own + visible)
+      posts = await Post.find({
+        $or: [{ visible: true }, { authorId: req.userId }],
+      })
+        .populate("authorId", "firstName lastName email")
+        .sort({ createdAt: -1 });
+    } else {
+      // Only show visible posts to unauthenticated users
+      posts = await Post.find({ visible: true })
+        .populate("authorId", "firstName lastName email")
+        .sort({ createdAt: -1 });
+    }
     res.json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error);

@@ -9,6 +9,7 @@ interface CreatePostPayload {
   title: string;
   content: string;
   visible: boolean;
+  callback?: () => void;
 }
 
 interface UpdatePostPayload {
@@ -58,13 +59,15 @@ export const fetchPosts = createAsyncThunk<Post[], void>(
 
 export const postAdded = createAsyncThunk<Post, CreatePostPayload>(
   "posts/addPost",
-  async ({ authorId, title, content, visible }, thunkAPI) => {
+  async ({ authorId, title, content, visible, callback }, thunkAPI) => {
     try {
       const { data } = await axios.post(
         "/api/posts",
         { title, content, visible },
         { withCredentials: true }
       );
+      // Call the callback after successful post creation
+      if (callback) callback();
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<{ error: string }>;
@@ -100,7 +103,7 @@ export const togglePostVisibility = createAsyncThunk<Post, string>(
     try {
       // First, get the current state
       const state = thunkAPI.getState() as RootState;
-      const post = state.posts.posts.find((p) => p._id === id);
+      const post = state.posts.posts.find(p => p._id === id);
 
       if (!post) {
         throw new Error("Post not found");
@@ -202,9 +205,6 @@ export const postsSlice = createSlice({
           state.posts[index] = action.payload;
         }
       })
-      .addCase(removePost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter((post) => post._id !== action.payload);
-      })
       .addCase(togglePostVisibility.fulfilled, (state, action) => {
         const index = state.posts.findIndex(
           (post) => post._id === action.payload._id
@@ -212,6 +212,9 @@ export const postsSlice = createSlice({
         if (index !== -1) {
           state.posts[index] = action.payload;
         }
+      })
+      .addCase(removePost.fulfilled, (state, action) => {
+        state.posts = state.posts.filter((post) => post._id !== action.payload);
       });
   },
 });

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
@@ -9,12 +10,13 @@ import {
   Header,
   Icon,
   Input,
+  Message,
   Segment,
   TextArea,
 } from "semantic-ui-react";
 import { AppDispatch } from "../../app/store";
 import { useCurrentUser } from "../user/userSlice";
-import { postUpdated, selectPostById } from "./postsSlice";
+import { selectPostById, updatePost } from "./postsSlice";
 
 interface EditPostFormData {
   title: string;
@@ -44,10 +46,19 @@ function EditPostForm() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const onSubmit = (data: EditPostFormData) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const onSubmit = async (data: EditPostFormData) => {
     if (!post) return;
-    dispatch(postUpdated({ ...data, id: post._id }));
-    navigate(`/posts/${post._id}`);
+    setIsSubmitting(true);
+    setSubmitError(null);
+    const result = await dispatch(updatePost({ ...data, id: post._id }));
+    setIsSubmitting(false);
+    if (updatePost.fulfilled.match(result)) {
+      navigate(`/posts/${post._id}`);
+    } else {
+      setSubmitError((result.payload as string) || "Erro ao atualizar post.");
+    }
   };
 
   const user = useCurrentUser();
@@ -67,6 +78,12 @@ function EditPostForm() {
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Header size="huge">Editar post</Header>
+          {submitError && (
+            <Message negative>
+              <Message.Header>Erro</Message.Header>
+              <p>{submitError}</p>
+            </Message>
+          )}
           <Form.Field
             control={Input}
             label="Título"
@@ -122,7 +139,12 @@ function EditPostForm() {
           />
           <Button.Group>
             <Button as={Link} to="/posts" content="Voltar" icon="arrow left" />
-            <Button animated primary>
+            <Button
+              animated
+              primary
+              disabled={isSubmitting}
+              loading={isSubmitting}
+            >
               <Button.Content visible content="Concluir" />
               <Button.Content hidden>
                 <Icon name="arrow right" />

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,7 +11,7 @@ import {
 } from "semantic-ui-react";
 import { Post as PostType } from "../../types";
 import { useCurrentUser } from "../user/userSlice";
-import { deletePost, toggleVisibility, usePostAuthor } from "./postsSlice";
+import { removePost, togglePostVisibility, usePostAuthor } from "./postsSlice";
 
 interface PostProps {
   post: PostType;
@@ -18,8 +19,11 @@ interface PostProps {
 }
 
 function Post({ post, showAuthor = true }: PostProps) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
+  const [isTogglingVisibility, setIsTogglingVisibility] =
+    useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const user = useCurrentUser();
   const author = usePostAuthor(post);
@@ -30,6 +34,20 @@ function Post({ post, showAuthor = true }: PostProps) {
       return post.authorId;
     }
     return post.authorId._id;
+  };
+
+  // Handle toggle visibility
+  const handleToggleVisibility = async () => {
+    setIsTogglingVisibility(true);
+    await dispatch(togglePostVisibility(post._id));
+    setIsTogglingVisibility(false);
+  };
+
+  // Handle delete post
+  const handleDeletePost = async () => {
+    setIsDeleting(true);
+    await dispatch(removePost(post._id));
+    setIsDeleting(false);
   };
 
   // Check if post should be visible
@@ -65,7 +83,9 @@ function Post({ post, showAuthor = true }: PostProps) {
                 <Button
                   icon={post.visible ? "eye" : "eye slash"}
                   color={post.visible ? "blue" : "grey"}
-                  onClick={() => dispatch(toggleVisibility(post._id))}
+                  onClick={handleToggleVisibility}
+                  loading={isTogglingVisibility}
+                  disabled={isTogglingVisibility || isDeleting}
                 />
               }
               mouseEnterDelay={200}
@@ -80,10 +100,18 @@ function Post({ post, showAuthor = true }: PostProps) {
                   color="red"
                   content="Apagar post"
                   size="tiny"
-                  onClick={() => dispatch(deletePost(post._id))}
+                  onClick={handleDeletePost}
+                  loading={isDeleting}
+                  disabled={isTogglingVisibility || isDeleting}
                 />
               }
-              trigger={<Button color="red" icon="delete" />}
+              trigger={
+                <Button
+                  color="red"
+                  icon="delete"
+                  disabled={isTogglingVisibility || isDeleting}
+                />
+              }
             />
             <Popup
               mouseEnterDelay={200}
@@ -93,6 +121,7 @@ function Post({ post, showAuthor = true }: PostProps) {
                   onClick={() => navigate(`/posts/${post._id}/edit`)}
                   color="grey"
                   icon="edit"
+                  disabled={isTogglingVisibility || isDeleting}
                 />
               }
             />
@@ -104,6 +133,7 @@ function Post({ post, showAuthor = true }: PostProps) {
                   onClick={() => navigate(`/posts/${post._id}`)}
                   color="grey"
                   icon="arrow right"
+                  disabled={isTogglingVisibility || isDeleting}
                 />
               }
             />

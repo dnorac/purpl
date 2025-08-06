@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -9,12 +10,13 @@ import {
   Header,
   Icon,
   Input,
+  Message,
   Segment,
   TextArea,
 } from "semantic-ui-react";
 import { AppDispatch } from "../../app/store";
 import { useCurrentUser } from "../user/userSlice";
-import { postAdded, useAllPosts } from "./postsSlice";
+import { postAdded } from "./postsSlice";
 
 interface AddPostFormData {
   title: string;
@@ -40,21 +42,33 @@ function AddPostForm() {
   const dispatch = useDispatch<AppDispatch>();
 
   const user = useCurrentUser();
-  const { state } = useAllPosts();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const onSubmit = (data: AddPostFormData) => {
+  const onSubmit = async (data: AddPostFormData) => {
     if (!user) return;
 
     const { title, content, visible } = data;
-    dispatch(
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const result = await dispatch(
       postAdded({
         authorId: user._id,
         title,
         content,
         visible,
-        callback: () => navigate("/posts"),
       })
     );
+
+    setIsSubmitting(false);
+
+    if (postAdded.fulfilled.match(result)) {
+      navigate("/posts");
+    } else {
+      setSubmitError((result.payload as string) || "Erro ao criar post.");
+    }
   };
 
   // Early return if not authenticated
@@ -63,8 +77,14 @@ function AddPostForm() {
   return (
     <Segment basic>
       <Container>
-        <Form onSubmit={handleSubmit(onSubmit)} loading={state === "loading"}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Header size="huge">Novo post</Header>
+          {submitError && (
+            <Message negative>
+              <Message.Header>Erro</Message.Header>
+              <p>{submitError}</p>
+            </Message>
+          )}
           <Controller
             name="title"
             control={control}
@@ -127,7 +147,13 @@ function AddPostForm() {
               icon="arrow left"
               onClick={() => navigate(-1)}
             />
-            <Button animated primary type="submit">
+            <Button
+              animated
+              primary
+              type="submit"
+              disabled={isSubmitting}
+              loading={isSubmitting}
+            >
               <Button.Content visible content="Postar" />
               <Button.Content hidden>
                 <Icon name="arrow right" />
