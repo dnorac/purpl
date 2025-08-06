@@ -5,7 +5,7 @@ A modern social posting platform built with React.js and Express.js, featuring u
 ## Features
 
 - 🔐 **User Authentication**: JWT-based login/register system
-- 📝 **Posts Management**: Create, read, update, delete posts with rich text editor
+- 📝 **Posts Management**: Create, read, update, delete posts with form validation
 - 👥 **User Profiles**: View user profiles and manage your own
 - 🎨 **Modern UI**: Built with Semantic UI React for a beautiful, responsive design
 - 🔒 **Security**: Secure Express.js backend with Helmet, bcrypt password hashing
@@ -66,9 +66,7 @@ You will also see any lint errors in the console.
 - [React Hook Form](https://react-hook-form.com/) (^7.52.2) - Performant forms with easy validation
   - [@hookform/error-message](https://www.npmjs.com/package/@hookform/error-message) (^2.0.1) - Error message component
 - [Semantic UI React](https://react.semantic-ui.com/) (^2.1.5) - Beautiful UI component library
-- [React Quill](https://github.com/zenoamaro/react-quill) (^2.0.0) - Rich text editor for posts
 - [React Helmet](https://github.com/nfl/react-helmet) (^6.1.0) - Dynamic `<head>` tag management
-- [React Syntax Highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) (^15.5.0) - Code syntax highlighting
 - [Axios](https://github.com/axios/axios) (^1.7.3) - Promise-based HTTP client
 - [Sass](https://github.com/sass/sass) (^1.77.8) - CSS preprocessor (replaced node-sass)
 - [@craco/craco](https://github.com/gsoft-inc/craco) (^6.4.5) - Create React App Configuration Override
@@ -133,7 +131,7 @@ This project has been fully modernized with the latest versions of all dependenc
 ### New Features Added
 
 - 🆕 **Full Posts Backend**: Complete Express.js API with MongoDB integration
-- 🆕 **Rich Text Editor**: React Quill integration for post creation
+- 🆕 **Form Validation**: React Hook Form integration with error handling
 - 🆕 **Authentication Middleware**: JWT-based route protection
 - 🆕 **Error Handling**: Comprehensive error states and user feedback
 - 🆕 **Loading States**: Better UX with loading indicators
