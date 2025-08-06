@@ -79,7 +79,6 @@ You will also see any lint errors in the console.
 - [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) (^5.1.1) - Password hashing function
 - [cookie-parser](https://github.com/expressjs/cookie-parser) (^1.4.6) - Parse HTTP cookies
 - [dotenv](https://github.com/motdotla/dotenv) (^16.4.5) - Load environment variables
-- [@faker-js/faker](https://fakerjs.dev/) (^8.4.1) - Generate fake data for testing
 - [nanoid](https://github.com/ai/nanoid) (^5.0.7) - URL-safe unique string ID generator
 - [nodemon](https://github.com/remy/nodemon) (^3.1.4) - Development server auto-restart
 

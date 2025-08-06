@@ -22,7 +22,6 @@
     "nodemon": "^3.1.4"
   },
   "devDependencies": {
-    "eslint": "^9.8.0",
-    "@faker-js/faker": "^8.4.1"
+    "eslint": "^9.8.0"
   }
 }
