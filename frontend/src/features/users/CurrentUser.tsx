@@ -21,13 +21,7 @@ function CurrentUser() {
       }`}
     >
       <Link to={`/users/${user?._id}`}>
-        <img
-          src={
-            user?.avatar ||
-            "https://www.lateralesquerdo.com/wp-content/uploads/2016/07/no-avatar.png"
-          }
-          alt={user?.email || ""}
-        />
+        <img src={user?.avatar} alt={user?.email} />
       </Link>
       <div className="user-panel-info">
         <h5>

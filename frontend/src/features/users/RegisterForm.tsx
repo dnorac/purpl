@@ -27,6 +27,7 @@ interface RegisterFormData {
   password: string;
   passwordRepeat: string;
   termsOfService: boolean;
+  privacyPolicy: boolean;
 }
 
 function RegisterForm() {
@@ -42,6 +43,7 @@ function RegisterForm() {
       password: "",
       passwordRepeat: "",
       termsOfService: false,
+      privacyPolicy: false,
     },
   });
 
@@ -53,11 +55,12 @@ function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     const registerData: RegisterPayload = {
-      name: `${data.firstName} ${data.lastName}`,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       password: data.password,
-      confirmPassword: data.passwordRepeat,
-      privacyPolicy: true,
+      passwordRepeat: data.passwordRepeat,
+      privacyPolicy: data.privacyPolicy,
       termsOfService: data.termsOfService,
     };
     const resultAction = await dispatch(registerUser(registerData));
@@ -231,8 +234,37 @@ function RegisterForm() {
                       label={
                         <label>
                           Li e aceito os{" "}
-                          <Link to="/termos">termos e condições de uso</Link> e
-                          a{" "}
+                          <Link to="/termos">termos e condições de uso</Link> do
+                          Purpl.
+                        </label>
+                      }
+                      error={
+                        errors.termsOfService
+                          ? {
+                              content: errors.termsOfService.message,
+                              pointing: "left",
+                            }
+                          : false
+                      }
+                    />
+                  )}
+                />
+                <Controller
+                  name="privacyPolicy"
+                  control={control}
+                  rules={{ required: "Aceite a política de privacidade." }}
+                  render={({ field: { onChange, value, name } }) => (
+                    <Form.Field
+                      control={Checkbox}
+                      id="register-form-privacyPolicy"
+                      name={name}
+                      checked={value || false}
+                      onChange={(e: any, { checked }: { checked: boolean }) =>
+                        onChange(checked)
+                      }
+                      label={
+                        <label>
+                          Li e aceito a{" "}
                           <Link to="/privacidade">política de privacidade</Link>{" "}
                           do Purpl.
                         </label>

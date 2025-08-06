@@ -1,6 +1,5 @@
 const express = require("express");
 const User = require("../users/model");
-const { faker } = require("@faker-js/faker");
 const jwt = require("jsonwebtoken");
 const { withAuth } = require("../middlewares");
 
@@ -27,6 +26,8 @@ router.get("/logout", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const data = req.body;
+  console.log("Backend received registration data:", data);
+
   const required = [
     "firstName",
     "lastName",
@@ -41,13 +42,24 @@ router.post("/register", async (req, res) => {
   const passwordConfirmed = ({ password, passwordRepeat }) =>
     password === passwordRepeat;
 
-  if (!hasRequiredKeys(required, data) || !passwordConfirmed(data))
-    return res.sendStatus(401);
+  if (!hasRequiredKeys(required, data)) {
+    console.log(
+      "Missing required fields. Expected:",
+      required,
+      "Got:",
+      Object.keys(data)
+    );
+    return res.status(401).json({ error: "Missing required fields" });
+  }
+
+  if (!passwordConfirmed(data)) {
+    console.log("Passwords don't match");
+    return res.status(401).json({ error: "Passwords don't match" });
+  }
 
   try {
     const newUser = await User.create({
       ...data,
-      avatar: faker.image.avatar(),
     });
     res.json({ status: "success", user: newUser });
   } catch (error) {

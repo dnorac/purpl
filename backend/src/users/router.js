@@ -3,7 +3,7 @@ const User = require("./model");
 
 const router = express.Router();
 router.get("/", async (req, res) => {
-  const users = await User.find();
+  const users = await User.find({}, "-password");
   res.json(users);
 });
 

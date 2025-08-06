@@ -24,11 +24,12 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
+      default: "https://picsum.photos/200",
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 userSchema.pre("save", function (next) {
