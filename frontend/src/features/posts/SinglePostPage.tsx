@@ -102,7 +102,7 @@ function SinglePostPage() {
           <Segment color="red">
             <Header>Error loading post</Header>
             <p>There was an error loading the post. Please try again.</p>
-            <Button as={Link} to="/posts">
+            <Button as={Link} to="/">
               Back to Posts
             </Button>
           </Segment>

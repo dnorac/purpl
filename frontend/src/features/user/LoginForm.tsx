@@ -35,7 +35,7 @@ function LoginForm() {
 
   const onSubmit = (data: LoginPayload) => dispatch(logUserIn(data));
 
-  if (user?.email) return <Navigate to="/profile" replace />;
+  if (user?._id) return <Navigate to={`/users/${user._id}`} replace />;
 
   return (
     <Segment basic>

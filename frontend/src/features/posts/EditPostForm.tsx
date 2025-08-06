@@ -47,7 +47,7 @@ function EditPostForm() {
   const onSubmit = (data: EditPostFormData) => {
     if (!post) return;
     dispatch(postUpdated({ ...data, id: post._id }));
-    navigate("/posts");
+    navigate(`/posts/${post._id}`);
   };
 
   const user = useCurrentUser();

@@ -71,7 +71,7 @@ const userSlice = createSlice({
       .addCase(logUserOut.fulfilled, (state) => {
         state.user = null;
         state.error = null;
-        state.state = "idle";
+        state.state = "succeeded";
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         if (state.user) {
