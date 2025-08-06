@@ -2,10 +2,12 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+// Import Semantic UI CSS and our custom overrides
 import "semantic-ui-css/semantic.min.css";
 import App from "./App";
 import store from "./app/store";
 import "./index.css";
+import "./semantic-ui/semantic-overrides.css"; // This file contains our custom styles that override Semantic UI defaults
 import * as serviceWorker from "./serviceWorker";
 
 const container = document.getElementById("root");
