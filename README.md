@@ -41,7 +41,6 @@ A modern social posting platform built with React.js, Express.js, Mantine, and T
 - [cookie-parser](https://github.com/expressjs/cookie-parser) – Parse HTTP cookies
 - [dotenv](https://github.com/motdotla/dotenv) – Load environment variables
 - [nanoid](https://github.com/ai/nanoid) – URL-safe unique string ID generator
-- [nodemon](https://github.com/remy/nodemon) – Development server auto-restart
 
 ### Build & Development Tools
 
