@@ -1,3 +1,7 @@
+# [ARCHIVED] This migration guide is now obsolete. The migration to Mantine, @tanstack/react-router, and removal of SASS/Semantic UI is complete. See README.md for the current tech stack and setup instructions.
+
+---
+
 # Purpl Project Dependencies Migration Guide
 
 ## Overview

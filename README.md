@@ -1,15 +1,52 @@
 # Purpl
 
-A modern social posting platform built with React.js and Express.js, featuring user authentication, posts management, and a beautiful UI.
+A modern social posting platform built with React.js, Express.js, Mantine, and TanStack Router. Features user authentication, posts management, and a beautiful, responsive UI.
 
 ## Features
 
 - 🔐 **User Authentication**: JWT-based login/register system
 - 📝 **Posts Management**: Create, read, update, delete posts with form validation
 - 👥 **User Profiles**: View user profiles and manage your own
-- 🎨 **Modern UI**: Built with Semantic UI React for a beautiful, responsive design
-- 🔒 **Security**: Secure Express.js backend with Helmet, bcrypt password hashing
+- 🎨 **Modern UI**: Built with Mantine for a beautiful, responsive design
+- �️ **Type-safe Routing**: Powered by @tanstack/react-router
+- �🔒 **Security**: Secure Express.js backend with Helmet, bcrypt password hashing
 - 📱 **Responsive**: Mobile-friendly design that works on all devices
+
+## Technologies Used
+
+### Frontend
+
+- [React.js](https://react.dev/) – Modern UI library
+- [@tanstack/react-router](https://tanstack.com/router/latest) – Type-safe, file-based routing for React
+- [@mantine/core](https://mantine.dev/) – Modern React component library
+- [@mantine/form](https://mantine.dev/docs/form/) – Form state management for React
+- [@mantine/hooks](https://mantine.dev/docs/hooks/) – Useful React hooks
+- [@tabler/icons-react](https://tabler.io/icons) – Icon set for React
+- [Redux Toolkit](https://redux-toolkit.js.org/) – Modern Redux state management
+- [React Redux](https://react-redux.js.org/) – React bindings for Redux
+- [React Hook Form](https://react-hook-form.com/) – Performant forms with easy validation
+- [React Helmet](https://github.com/nfl/react-helmet) – Dynamic `<head>` tag management
+- [Axios](https://github.com/axios/axios) – Promise-based HTTP client
+- [Day.js](https://day.js.org/) – Lightweight date library
+- [Vite](https://vitejs.dev/) – Fast build tool with HMR and modern bundling
+- **No longer using:** Semantic UI, React Router, SASS, or concurrently
+
+### Backend
+
+- [Express](http://expressjs.com/) – Fast, unopinionated web framework for Node.js
+- [Helmet](https://helmetjs.github.io/) – Secure Express apps with various HTTP headers
+- [MongoDB](https://www.mongodb.com/) & [Mongoose](https://mongoosejs.com/) – Database and ODM for data modeling
+- [JWT](https://github.com/auth0/node-jsonwebtoken) – JSON Web Token implementation
+- [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) – Password hashing function
+- [cookie-parser](https://github.com/expressjs/cookie-parser) – Parse HTTP cookies
+- [dotenv](https://github.com/motdotla/dotenv) – Load environment variables
+- [nanoid](https://github.com/ai/nanoid) – URL-safe unique string ID generator
+- [nodemon](https://github.com/remy/nodemon) – Development server auto-restart
+
+### Build & Development Tools
+
+- [ESLint](https://eslint.org/) – JavaScript/React linting
+- [Prettier](https://prettier.io/) – Code formatting
 
 ## Set up
 
