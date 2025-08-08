@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import currentUser from "./(auth)/-current-user.slice";
 import postReducer from "./posts/-post-slice";
 import usersReducer from "./users/-user-slice";
 
@@ -6,6 +7,7 @@ const store = configureStore({
   reducer: {
     posts: postReducer,
     users: usersReducer,
+    currentUser: currentUser,
   },
 });
 

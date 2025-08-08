@@ -19,7 +19,9 @@ export const registerUser = createAsyncThunk<User, RegisterPayload>(
 
       console.log("Sending registration data to backend:", backendPayload);
 
-      const { data } = await axios.post("/api/register", backendPayload);
+      const { data } = await axios.post("/api/register", backendPayload, {
+        withCredentials: true, // Include cookies for authentication
+      });
       if (data.status === "error") throw data.error;
       return data.user || data; // Backend returns { status: "success", user: newUser }
     } catch (error) {

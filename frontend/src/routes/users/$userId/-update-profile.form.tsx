@@ -16,8 +16,8 @@ import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 import { useCurrentUser } from "../-user-slice";
+import { updateProfile } from "../../(auth)/-thunks";
 import { AppDispatch } from "../../-store";
-import { updateProfile } from "../../../features/thunks";
 import { User } from "../../../types";
 
 function UpdateProfileForm() {

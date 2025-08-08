@@ -121,7 +121,7 @@ function EditPostForm() {
             <Group mt="lg">
               <Button
                 component={Link}
-                to="/posts"
+                to="/"
                 variant="outline"
                 leftSection={<IconArrowLeft size={14} />}
               >

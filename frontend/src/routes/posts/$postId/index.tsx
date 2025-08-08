@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import RequireAuth from "../../../features/auth/RequireAuth";
+import RequireAuth from "../../(auth)/-require-auth";
 import SinglePostPage from "./-single-post";
 
 export const Route = createFileRoute("/posts/$postId/")({

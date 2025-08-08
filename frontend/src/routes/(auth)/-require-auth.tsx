@@ -11,7 +11,7 @@ interface RequireAuthProps {
 export default function RequireAuth({ children }: RequireAuthProps) {
   const auth = useSelector((state: RootState) => state.currentUser);
   const user = auth.user;
-  const userState = auth.state;
+  const userState = auth.status;
 
   if (userState === "idle" || userState === "loading") {
     return (

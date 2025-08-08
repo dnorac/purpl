@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import RequireAuth from "../../features/auth/RequireAuth";
-import UserList from "../../features/users/UserList";
+import RequireAuth from "../(auth)/-require-auth";
+import UserList from "./-user-list";
 
 export const Route = createFileRoute("/users/")({
   component: RouteComponent,

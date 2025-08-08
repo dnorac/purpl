@@ -1,11 +1,11 @@
-const express = require("express");
-const Post = require("./model");
-const { withAuth } = require("../middlewares");
+import express, { type Request, type Response } from "express";
+import { withAuth } from "../middlewares";
+import Post from "./model";
 
 const router = express.Router();
 
 // GET /posts - Fetch all posts visible to the user
-router.get("/", withAuth, async (req, res) => {
+router.get("/", withAuth, async (req: Request, res: Response) => {
   try {
     let posts;
     if (req.userId) {
@@ -29,7 +29,7 @@ router.get("/", withAuth, async (req, res) => {
 });
 
 // GET /posts/:id - Fetch a specific post
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id).populate(
       "authorId",
@@ -48,7 +48,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /posts - Create a new post (requires authentication)
-router.post("/", withAuth, async (req, res) => {
+router.post("/", withAuth, async (req: Request, res: Response) => {
   try {
     const { title, content, visible = true } = req.body;
 
@@ -78,7 +78,7 @@ router.post("/", withAuth, async (req, res) => {
 });
 
 // PUT /posts/:id - Update a post (requires authentication and ownership)
-router.put("/:id", withAuth, async (req, res) => {
+router.put("/:id", withAuth, async (req: Request, res: Response) => {
   try {
     const { title, content, visible } = req.body;
 
@@ -111,7 +111,7 @@ router.put("/:id", withAuth, async (req, res) => {
 });
 
 // DELETE /posts/:id - Delete a post (requires authentication and ownership)
-router.delete("/:id", withAuth, async (req, res) => {
+router.delete("/:id", withAuth, async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -136,7 +136,7 @@ router.delete("/:id", withAuth, async (req, res) => {
 });
 
 // GET /posts/user/:userId - Get posts by a specific user
-router.get("/user/:userId", async (req, res) => {
+router.get("/user/:userId", async (req: Request, res: Response) => {
   try {
     const posts = await Post.find({
       authorId: req.params.userId,
@@ -152,4 +152,4 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -14,7 +14,9 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as PostsAddRouteImport } from './routes/posts/add'
+import { Route as UsersUserIdIndexRouteImport } from './routes/users/$userId/index'
 import { Route as PostsPostIdIndexRouteImport } from './routes/posts/$postId/index'
+import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authRecoverAccountIndexRouteImport } from './routes/(auth)/recover-account/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as UsersUserIdUpdateRouteImport } from './routes/users/$userId/update'
@@ -45,9 +47,19 @@ const PostsAddRoute = PostsAddRouteImport.update({
   path: '/posts/add',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsersUserIdIndexRoute = UsersUserIdIndexRouteImport.update({
+  id: '/users/$userId/',
+  path: '/users/$userId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsPostIdIndexRoute = PostsPostIdIndexRouteImport.update({
   id: '/posts/$postId/',
   path: '/posts/$postId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authRegisterIndexRoute = authRegisterIndexRouteImport.update({
+  id: '/(auth)/register/',
+  path: '/register/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authRecoverAccountIndexRoute = authRecoverAccountIndexRouteImport.update({
@@ -81,7 +93,9 @@ export interface FileRoutesByFullPath {
   '/users/$userId/update': typeof UsersUserIdUpdateRoute
   '/login': typeof authLoginIndexRoute
   '/recover-account': typeof authRecoverAccountIndexRoute
+  '/register': typeof authRegisterIndexRoute
   '/posts/$postId': typeof PostsPostIdIndexRoute
+  '/users/$userId': typeof UsersUserIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -93,7 +107,9 @@ export interface FileRoutesByTo {
   '/users/$userId/update': typeof UsersUserIdUpdateRoute
   '/login': typeof authLoginIndexRoute
   '/recover-account': typeof authRecoverAccountIndexRoute
+  '/register': typeof authRegisterIndexRoute
   '/posts/$postId': typeof PostsPostIdIndexRoute
+  '/users/$userId': typeof UsersUserIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -106,7 +122,9 @@ export interface FileRoutesById {
   '/users/$userId/update': typeof UsersUserIdUpdateRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/recover-account/': typeof authRecoverAccountIndexRoute
+  '/(auth)/register/': typeof authRegisterIndexRoute
   '/posts/$postId/': typeof PostsPostIdIndexRoute
+  '/users/$userId/': typeof UsersUserIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -120,7 +138,9 @@ export interface FileRouteTypes {
     | '/users/$userId/update'
     | '/login'
     | '/recover-account'
+    | '/register'
     | '/posts/$postId'
+    | '/users/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -132,7 +152,9 @@ export interface FileRouteTypes {
     | '/users/$userId/update'
     | '/login'
     | '/recover-account'
+    | '/register'
     | '/posts/$postId'
+    | '/users/$userId'
   id:
     | '__root__'
     | '/'
@@ -144,7 +166,9 @@ export interface FileRouteTypes {
     | '/users/$userId/update'
     | '/(auth)/login/'
     | '/(auth)/recover-account/'
+    | '/(auth)/register/'
     | '/posts/$postId/'
+    | '/users/$userId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -157,7 +181,9 @@ export interface RootRouteChildren {
   UsersUserIdUpdateRoute: typeof UsersUserIdUpdateRoute
   authLoginIndexRoute: typeof authLoginIndexRoute
   authRecoverAccountIndexRoute: typeof authRecoverAccountIndexRoute
+  authRegisterIndexRoute: typeof authRegisterIndexRoute
   PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute
+  UsersUserIdIndexRoute: typeof UsersUserIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -197,11 +223,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsAddRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/users/$userId/': {
+      id: '/users/$userId/'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof UsersUserIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/posts/$postId/': {
       id: '/posts/$postId/'
       path: '/posts/$postId'
       fullPath: '/posts/$postId'
       preLoaderRoute: typeof PostsPostIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/register/': {
+      id: '/(auth)/register/'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authRegisterIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/recover-account/': {
@@ -245,7 +285,9 @@ const rootRouteChildren: RootRouteChildren = {
   UsersUserIdUpdateRoute: UsersUserIdUpdateRoute,
   authLoginIndexRoute: authLoginIndexRoute,
   authRecoverAccountIndexRoute: authRecoverAccountIndexRoute,
+  authRegisterIndexRoute: authRegisterIndexRoute,
   PostsPostIdIndexRoute: PostsPostIdIndexRoute,
+  UsersUserIdIndexRoute: UsersUserIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

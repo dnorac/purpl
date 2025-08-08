@@ -2,11 +2,10 @@ export interface User {
   _id: string;
   email: string;
   name: string;
-  dateJoined: string;
-  lastSeen: string;
-  firstName?: string;
-  lastName?: string;
-  avatar?: string;
+  createdAt: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
 }
 
 export interface Post {

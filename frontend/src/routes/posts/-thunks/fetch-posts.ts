@@ -6,7 +6,9 @@ export const fetchPosts = createAsyncThunk<Post[], void>(
   "posts/fetchPosts",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get("/api/posts");
+      const { data } = await axios.get("/api/posts", {
+        withCredentials: true,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<{ error: string }>;

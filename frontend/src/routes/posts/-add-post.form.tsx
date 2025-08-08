@@ -15,7 +15,12 @@ import {
   IconArrowLeft,
   IconArrowRight,
 } from "@tabler/icons-react";
-import { Navigate, useNavigate } from "@tanstack/react-router";
+import {
+  Navigate,
+  useCanGoBack,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -44,6 +49,8 @@ function AddPostForm() {
   });
 
   const navigate = useNavigate();
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -138,13 +145,15 @@ function AddPostForm() {
               )}
             />
             <Group mt="lg">
-              <Button
-                variant="outline"
-                leftSection={<IconArrowLeft size={14} />}
-                onClick={() => navigate({ to: ".." })}
-              >
-                Voltar
-              </Button>
+              {canGoBack ? (
+                <Button
+                  variant="outline"
+                  leftSection={<IconArrowLeft size={14} />}
+                  onClick={() => router.history.back()}
+                >
+                  Voltar
+                </Button>
+              ) : null}
               <Button
                 color="purpl"
                 type="submit"

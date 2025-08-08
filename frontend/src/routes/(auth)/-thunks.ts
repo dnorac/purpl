@@ -6,7 +6,9 @@ export const logUserIn = createAsyncThunk<User, LoginPayload>(
   "user/logUserIn",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.post("/api/login", payload);
+      const { data } = await axios.post("/api/login", payload, {
+        withCredentials: true,
+      });
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Email ou senha incorreta.");

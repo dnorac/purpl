@@ -1,16 +1,16 @@
-const express = require("express");
-const User = require("../users/model");
-const jwt = require("jsonwebtoken");
-const { withAuth } = require("../middlewares");
+import express, { type Request, type Response } from "express";
+import jwt from "jsonwebtoken";
+import { withAuth } from "../middlewares";
+import User from "../users/model";
 
 const router = express.Router();
 
-router.get("/checkToken", withAuth, async (req, res) => {
+router.get("/checkToken", withAuth, async (req: Request, res: Response) => {
   const user = await User.findById(req.userId);
   res.json(user.toObject());
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user || !user.isCorrectPassword(password)) return res.sendStatus(401);
@@ -20,11 +20,11 @@ router.post("/login", async (req, res) => {
   return res.cookie("token", token, { httpOnly: true }).json(user.toObject());
 });
 
-router.get("/logout", async (req, res) => {
+router.get("/logout", async (req: Request, res: Response) => {
   return res.clearCookie("token").sendStatus(200);
 });
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req: Request, res: Response) => {
   const data = req.body;
   console.log("Backend received registration data:", data);
 
@@ -58,16 +58,22 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    const newUser = await User.create({
-      ...data,
+    const newUser = await User.create(data);
+
+    // Create JWT token and set cookie for automatic login after registration
+    const token = jwt.sign({ id: newUser._id }, process.env.SECRET, {
+      expiresIn: "1h",
     });
-    res.json({ status: "success", user: newUser });
+
+    return res
+      .cookie("token", token, { httpOnly: true })
+      .json({ status: "success", user: newUser });
   } catch (error) {
     res.json({ status: "error", error: "User already exists" });
   }
 });
 
-router.post("/updateProfile", withAuth, async (req, res) => {
+router.post("/updateProfile", withAuth, async (req: Request, res: Response) => {
   try {
     const { avatar } = req.body;
     const user = await User.findOneAndUpdate({ _id: req.userId }, { avatar });
@@ -78,4 +84,4 @@ router.post("/updateProfile", withAuth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

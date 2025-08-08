@@ -1,9 +1,14 @@
-import { AppShell, Burger, createTheme, MantineProvider } from "@mantine/core";
+import {
+  Anchor,
+  AppShell,
+  Burger,
+  createTheme,
+  MantineProvider,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
 
 import "../App.scss";
 
@@ -45,18 +50,7 @@ function RootComponent() {
   return (
     <>
       <MantineProvider theme={theme}>
-        <Helmet>
-          <title>Purple</title>
-        </Helmet>
-        <AppShell
-          padding="md"
-          header={{ height: 60 }}
-          navbar={{
-            width: 300,
-            breakpoint: "sm",
-            collapsed: { mobile: !opened },
-          }}
-        >
+        <AppShell padding="md" header={{ height: 60 }}>
           <AppShell.Header>
             <Burger
               opened={opened}
@@ -64,9 +58,10 @@ function RootComponent() {
               hiddenFrom="sm"
               size="sm"
             />
-            <div>Logo</div>
+            <Anchor component={Link} to="/">
+              Logo
+            </Anchor>
           </AppShell.Header>
-          <AppShell.Navbar>Navbar</AppShell.Navbar>
           <AppShell.Main>
             <Outlet />
           </AppShell.Main>

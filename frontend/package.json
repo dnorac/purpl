@@ -17,6 +17,7 @@
     "@tanstack/react-router": "^1.130.12",
     "@tanstack/react-router-devtools": "^1.130.13",
     "axios": "^1.7.3",
+    "dayjs": "^1.11.13",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-helmet": "^6.1.0",

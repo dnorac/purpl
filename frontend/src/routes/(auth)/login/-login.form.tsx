@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { logUserIn } from "../-thunks";
 import { AppDispatch } from "../../-store";
+import logo from "../../../app/logo.png";
 import { LoginPayload } from "../../../types";
-import logo from "../../app/logo.png";
 import { selectCurrentUser } from "../../users/-user-slice";
 
 function LoginForm() {
@@ -33,14 +33,11 @@ function LoginForm() {
       password: "",
     },
   });
-  const { user, error, state } = useSelector(selectCurrentUser);
+  const { user, error, status } = useSelector(selectCurrentUser);
 
   const onSubmit = (data: LoginPayload) => dispatch(logUserIn(data));
 
-  if (user?._id)
-    return (
-      <Navigate to="/users/$userId" params={{ userId: user._id }} replace />
-    );
+  if (user?._id) return <Navigate to="/" replace />;
 
   return (
     <Container size="xs" style={{ marginTop: "2rem" }}>
@@ -108,7 +105,7 @@ function LoginForm() {
               <Group grow>
                 <Button
                   type="submit"
-                  loading={state === "loading"}
+                  loading={status === "loading"}
                   color="purpl"
                 >
                   Conectar
