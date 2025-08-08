@@ -1,5 +1,6 @@
-import { Link, NavLink } from "react-router-dom";
-import { useCurrentUser } from "../features/user/userSlice";
+import { NavLink } from "@mantine/core";
+import { Link } from "@tanstack/react-router";
+import { useCurrentUser } from "../routes/users/-user-slice";
 import logo from "./logo.png";
 
 function Navbar() {
@@ -43,7 +44,7 @@ function Navbar() {
       ) : (
         <>
           <NavLink
-            to="/registro"
+            to="/register"
             end
             className={({ isActive }) =>
               isActive ? "navbar-link active-navbar-link" : "navbar-link"

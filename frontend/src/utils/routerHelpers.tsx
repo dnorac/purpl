@@ -1,40 +1,26 @@
-import React from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
 
 // Hook to replace useHistory
 export const useHistory = () => {
   const navigate = useNavigate();
   return {
-    push: (path: string) => navigate(path),
-    replace: (path: string) => navigate(path, { replace: true }),
-    goBack: () => navigate(-1),
-    goForward: () => navigate(1),
+    push: (path: string) => navigate({ to: path }),
+    replace: (path: string) => navigate({ to: path, replace: true }),
+    goBack: () => window.history.back(),
+    goForward: () => window.history.forward(),
   };
 };
 
 // Hook to replace useRouteMatch
-export const useRouteMatch = () => {
-  const params = useParams();
+export function useRouteMatch<T extends object = {}>() {
+  const params = useParams<T>();
   const location = useLocation();
-
   return {
     params,
     url: location.pathname,
     path: location.pathname,
   };
-};
-
-// Component to replace <Redirect>
-interface RedirectProps {
-  to: string;
 }
 
-export const Redirect = ({ to }: RedirectProps) => {
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    navigate(to, { replace: true });
-  }, [navigate, to]);
-
-  return null;
-};
+// Component to replace <Redirect>
+// For redirects, use <Navigate /> from @tanstack/react-router directly in components
